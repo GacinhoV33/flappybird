@@ -96,6 +96,9 @@ def draw_choosing_hereos():
     hero_choosing_surface8 = game_font.render("Rudy   8      ", True, (255, 255, 255))
     hero_choosing_surface_rect8 = hero_choosing_surface8.get_rect(center=(int(BG_SIZE[0] / 4), 500))
     screen.blit(hero_choosing_surface8, hero_choosing_surface_rect8)
+    hero_choosing_surface9 = game_font.render("   Murzyn   9      ", True, (255, 255, 255))
+    hero_choosing_surface_rect9 = hero_choosing_surface9.get_rect(center=(int(BG_SIZE[0] / 4), 550))
+    screen.blit(hero_choosing_surface9, hero_choosing_surface_rect9)
 
 
 def draw_clown_surface():
@@ -105,7 +108,7 @@ def draw_clown_surface():
     screen.blit(clown_surface, clown_rect)
     time.sleep(1) #sleep after losing game
 
-#-------------------------------------------------------------------------#
+
 class Hero:
 
     def __init__(self, look_path, end_game_path, start_sound_path, end_sound_path):
@@ -119,7 +122,7 @@ class Hero:
 
 
     hero_highscore = 0
-
+#-------------------------------------------------------------------------#
 #-----------------------------------------------------------------------#
 
 # pygame.mixer.pre_init(frequency=44100, size=16, channels=1, buffer=512)
@@ -175,7 +178,7 @@ death_sound = pygame.mixer.Sound("sound/sfx_hit.wav")
 score_sound = pygame.mixer.Sound("sound/sfx_point.wav")
 beat_highscore_sound = pygame.mixer.Sound("sound/win.mp3")
 
-Mytnik = Hero("Mytnik.png", "Mytnik_end.png", "sound/start_sound/Mytnik_start.wav", "sound/end_sound/Mytnik_end_sound.wav")
+Mytnik = Hero("Mytnik/Mytnik.png", "Mytnik/Mytnik_end.png", "sound/start_sound/Mytnik_start.wav", "sound/end_sound/Mytnik_end_sound.wav")
 
 while True:
     for event in pygame.event.get():
@@ -239,7 +242,6 @@ while True:
     # Floor
     floor_x_pos -= 1
     draw_floor(screen, floor_x_pos)
-
 
     if floor_x_pos <= -BG_SIZE[0]:
         floor_x_pos = 0
