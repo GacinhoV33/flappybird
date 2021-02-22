@@ -4,9 +4,40 @@ import time
 
 HERO_PATH = "./heroes/"
 IMG_PATH = "./imgs/"
-BG_SIZE = (576, 800)
-#BIRD_TYPE =
+BG_SIZE = (800, 1000)
+
+#BIRD_SONGS =
 PIPE_SPEED = 5
+
+
+class HeroFace:
+
+    def __init__(self, downflap_path, midflap_path, upflap_path,  end_game_path=None):
+        # self.hero_look_surface = pygame.image.load(HERO_PATH + look_path).convert()
+        # self.hero_look_surface = pygame.transform.scale(self.hero_look_surface, BG_SIZE)
+        # self.end_picture_surface = pygame.image.load(HERO_PATH + end_game_path).convert()
+        # self.end_picture_surface = pygame.transform.scale(self.end_picture_surface, BG_SIZE)
+        # self.rect = self.hero_look_surface.get_rect(center=(int(BG_SIZE[0] / 2), int(BG_SIZE[1] / 2)))
+
+        self.bird_downflap = pygame.image.load(HERO_PATH + downflap_path).convert_alpha()
+        self.bird_downflap = pygame.transform.scale(self.bird_downflap, (int(BG_SIZE[0] / 12.5), int(BG_SIZE[1] / 15)))
+        self.bird_midflap = pygame.image.load(HERO_PATH + midflap_path).convert_alpha()
+        self.bird_midflap = pygame.transform.scale(self.bird_midflap, (int(BG_SIZE[0] / 12.5), int(BG_SIZE[1] / 15)))
+        self.bird_upflap = pygame.image.load(HERO_PATH + upflap_path).convert_alpha()
+        self.bird_upflap = pygame.transform.scale(self.bird_upflap, (int(BG_SIZE[0] / 12.5), int(BG_SIZE[1] / 15)))
+        self.bird_frames = [self.bird_downflap, self.bird_midflap, self.bird_upflap]
+        self.bird_index = 0
+        self.bird_surface = self.bird_frames[self.bird_index]
+        self.bird_rect = self.bird_surface.get_rect(center=(int(BG_SIZE[0] / 4), int(BG_SIZE[1] / 4)))
+
+    #hero_highscore = 0
+
+
+class HeroSound:
+
+    def __init__(self, start_sound_path, end_sound_path):
+        self.start_sound = pygame.mixer.Sound(start_sound_path)
+        self.end_sound = pygame.mixer.Sound(end_sound_path)
 
 
 def draw_floor(screen, floor_x_pos):
@@ -39,11 +70,11 @@ def draw_pipes(pipes, screen):
 
 def check_collision(pipes):
     for pipe in pipes:
-       if bird_rect.colliderect(pipe):
+       if BIRD_TYPE.bird_rect.colliderect(pipe):
            death_sound.play()
            return False
 
-    if bird_rect.top <= -int(BG_SIZE[1]*0.2) or bird_rect.bottom >= int(BG_SIZE[1]-BG_SIZE[1]/5):
+    if BIRD_TYPE.bird_rect.top <= -int(BG_SIZE[1]*0.2) or BIRD_TYPE.bird_rect.bottom >= int(BG_SIZE[1]-BG_SIZE[1]/5):
         death_sound.play()
         return False
 
@@ -73,32 +104,35 @@ def update_highscore(score, high_score):
 
 def draw_choosing_hereos():
     hero_choosing_surface1 = game_font.render("Zjarany   1   ", True, (255, 255, 255))
-    hero_choosing_surface_rect1 = hero_choosing_surface1.get_rect(center=(int(BG_SIZE[0] / 4), 150))
+    hero_choosing_surface_rect1 = hero_choosing_surface1.get_rect(center=(int(BG_SIZE[0] / 4), int(BG_SIZE[1]/20 * 3)))
     screen.blit(hero_choosing_surface1, hero_choosing_surface_rect1)
     hero_choosing_surface2 = game_font.render("Prezydent   2", True, (255, 255, 255))
-    hero_choosing_surface_rect2 = hero_choosing_surface2.get_rect(center=(int(BG_SIZE[0] / 4), 200))
+    hero_choosing_surface_rect2 = hero_choosing_surface2.get_rect(center=(int(BG_SIZE[0] / 4), int(BG_SIZE[1]/20 * 4)))
     screen.blit(hero_choosing_surface2, hero_choosing_surface_rect2)
-    hero_choosing_surface3 = game_font.render("Lysy   3      ", True, (255, 255, 255))
-    hero_choosing_surface_rect3 = hero_choosing_surface3.get_rect(center=(int(BG_SIZE[0] / 4), 250))
+    hero_choosing_surface3 = game_font.render("Lysy   3       ", True, (255, 255, 255))
+    hero_choosing_surface_rect3 = hero_choosing_surface3.get_rect(center=(int(BG_SIZE[0] / 4), int(BG_SIZE[1]/20 * 5)))
     screen.blit(hero_choosing_surface3, hero_choosing_surface_rect3)
     hero_choosing_surface4 = game_font.render("Icy Tower   4", True, (255, 255, 255))
-    hero_choosing_surface_rect4 = hero_choosing_surface4.get_rect(center=(int(BG_SIZE[0] / 4), 300))
+    hero_choosing_surface_rect4 = hero_choosing_surface4.get_rect(center=(int(BG_SIZE[0] / 4), int(BG_SIZE[1]/20 * 6)))
     screen.blit(hero_choosing_surface4, hero_choosing_surface_rect4)
     hero_choosing_surface5 = game_font.render("    VicePresident   5", True, (255, 255, 255))
-    hero_choosing_surface_rect5 = hero_choosing_surface5.get_rect(center=(int(BG_SIZE[0] / 4), 350))
+    hero_choosing_surface_rect5 = hero_choosing_surface5.get_rect(center=(int(BG_SIZE[0] / 4), int(BG_SIZE[1]/20 * 7)))
     screen.blit(hero_choosing_surface5, hero_choosing_surface_rect5)
     hero_choosing_surface6 = game_font.render("Narcos   6    ", True, (255, 255, 255))
-    hero_choosing_surface_rect6 = hero_choosing_surface6.get_rect(center=(int(BG_SIZE[0] / 4), 400))
+    hero_choosing_surface_rect6 = hero_choosing_surface6.get_rect(center=(int(BG_SIZE[0] / 4), int(BG_SIZE[1]/20 * 8)))
     screen.blit(hero_choosing_surface6, hero_choosing_surface_rect6)
     hero_choosing_surface7 = game_font.render("Alvaro   7    ", True, (255, 255, 255))
-    hero_choosing_surface_rect7 = hero_choosing_surface7.get_rect(center=(int(BG_SIZE[0] / 4), 450))
+    hero_choosing_surface_rect7 = hero_choosing_surface7.get_rect(center=(int(BG_SIZE[0] / 4), int(BG_SIZE[1]/20 * 9)))
     screen.blit(hero_choosing_surface7, hero_choosing_surface_rect7)
     hero_choosing_surface8 = game_font.render("Rudy   8      ", True, (255, 255, 255))
-    hero_choosing_surface_rect8 = hero_choosing_surface8.get_rect(center=(int(BG_SIZE[0] / 4), 500))
+    hero_choosing_surface_rect8 = hero_choosing_surface8.get_rect(center=(int(BG_SIZE[0] / 4), int(BG_SIZE[1]/20 * 10)))
     screen.blit(hero_choosing_surface8, hero_choosing_surface_rect8)
-    hero_choosing_surface9 = game_font.render("   Murzyn   9      ", True, (255, 255, 255))
-    hero_choosing_surface_rect9 = hero_choosing_surface9.get_rect(center=(int(BG_SIZE[0] / 4), 550))
+    hero_choosing_surface9 = game_font.render("Rom  9        ", True, (255, 255, 255))
+    hero_choosing_surface_rect9 = hero_choosing_surface9.get_rect(center=(int(BG_SIZE[0] / 4), int(BG_SIZE[1]/20 * 11)))
     screen.blit(hero_choosing_surface9, hero_choosing_surface_rect9)
+    hero_choosing_surface10 = game_font.render("Settings", True, (255, 255, 255))
+    hero_choosing_surface_rect10 = hero_choosing_surface10.get_rect(center=(int(BG_SIZE[0] / 2), int(BG_SIZE[1]/20 * 15)))
+    screen.blit(hero_choosing_surface10, hero_choosing_surface_rect10)
 
 
 def draw_clown_surface():
@@ -109,23 +143,12 @@ def draw_clown_surface():
     time.sleep(1) #sleep after losing game
 
 
-class Hero:
 
-    def __init__(self, look_path, end_game_path, start_sound_path, end_sound_path):
-        self.hero_look_surface = pygame.image.load(HERO_PATH + look_path).convert()
-        self.hero_look_surface = pygame.transform.scale(self.hero_look_surface, BG_SIZE)
-        self.end_picture_surface = pygame.image.load(HERO_PATH + end_game_path).convert()
-        self.end_picture_surface = pygame.transform.scale(self.end_picture_surface, BG_SIZE)
-        self.rect = self.hero_look_surface.get_rect(center=(int(BG_SIZE[0] / 2), int(BG_SIZE[1] / 2)))
-        self.start_sound = pygame.mixer.Sound(start_sound_path)
-        self.end_sound = pygame.mixer.Sound(end_sound_path)
-
-
-    hero_highscore = 0
 #-------------------------------------------------------------------------#
 #-----------------------------------------------------------------------#
 
 # pygame.mixer.pre_init(frequency=44100, size=16, channels=1, buffer=512)
+
 pygame.init()
 screen = pygame.display.set_mode(BG_SIZE)
 clock = pygame.time.Clock()
@@ -145,16 +168,17 @@ floor_surface = pygame.image.load(IMG_PATH + "base.png").convert()
 floor_surface = pygame.transform.scale(floor_surface, (int(BG_SIZE[0]*1.5), int(BG_SIZE[1]/5)))
 floor_x_pos = 0
 
-bird_downflap = pygame.image.load(IMG_PATH + "bluebird-downflap.png").convert_alpha()
-bird_downflap = pygame.transform.scale(bird_downflap, (int(BG_SIZE[0]/15), int(BG_SIZE[1]/20)))
-bird_midflap = pygame.image.load(IMG_PATH + "bluebird-midflap.png").convert_alpha()
-bird_midflap = pygame.transform.scale(bird_midflap, (int(BG_SIZE[0]/15), int(BG_SIZE[1]/20)))
-bird_upflap = pygame.image.load(IMG_PATH + "bluebird-upflap.png").convert_alpha()
-bird_upflap = pygame.transform.scale(bird_upflap, (int(BG_SIZE[0]/15), int(BG_SIZE[1]/20)))
-bird_frames = [bird_downflap, bird_midflap, bird_upflap]
-bird_index = 0
-bird_surface = bird_frames[bird_index]
-bird_rect = bird_surface.get_rect(center=(int(BG_SIZE[0]/4), int(BG_SIZE[1]/4)))
+#Bird_face
+# bird_downflap = pygame.image.load(IMG_PATH + "bluebird-downflap.png").convert_alpha()
+# bird_downflap = pygame.transform.scale(bird_downflap, (int(BG_SIZE[0]/15), int(BG_SIZE[1]/20)))
+# bird_midflap = pygame.image.load(IMG_PATH + "bluebird-midflap.png").convert_alpha()
+# bird_midflap = pygame.transform.scale(bird_midflap, (int(BG_SIZE[0]/15), int(BG_SIZE[1]/20)))
+# bird_upflap = pygame.image.load(IMG_PATH + "bluebird-upflap.png").convert_alpha()
+# bird_upflap = pygame.transform.scale(bird_upflap, (int(BG_SIZE[0]/15), int(BG_SIZE[1]/20)))
+# bird_frames = [bird_downflap, bird_midflap, bird_upflap]
+# bird_index = 0
+# bird_surface = bird_frames[bird_index]
+# bird_rect = bird_surface.get_rect(center=(int(BG_SIZE[0]/4), int(BG_SIZE[1]/4)))
 
 BIRDFLAP = pygame.USEREVENT + 1
 pygame.time.set_timer(BIRDFLAP, 200)
@@ -178,7 +202,14 @@ death_sound = pygame.mixer.Sound("sound/sfx_hit.wav")
 score_sound = pygame.mixer.Sound("sound/sfx_point.wav")
 beat_highscore_sound = pygame.mixer.Sound("sound/win.mp3")
 
-Mytnik = Hero("Mytnik/Mytnik.png", "Mytnik/Mytnik_end.png", "sound/start_sound/Mytnik_start.wav", "sound/end_sound/Mytnik_end_sound.wav")
+
+#NormalBird = HeroFace()
+Mytnik = HeroFace("Mytnik/Mytnik_face_down.png", "Mytnik/Mytnik_face_mid.png", "Mytnik/Mytnik_face_up.png", "Mytnik/Mytnik_end.png")
+Mytnik_sound = HeroSound("sound/start_sound/Mytnik_start.wav", "sound/end_sound/Mytnik_end_sound.wav")
+Normal_blue = HeroFace("Normal_blue/bluebird-downflap.png", "Normal_blue/bluebird-midflap.png", "Normal_blue/bluebird-upflap.png")
+Strychala = HeroFace("Strychala/Strychala_face_down2.png", "Strychala/Strychala_face_mid2.png", "Strychala/Strychala_face_up2.png")
+#Strychala_sound = HeroSound()
+BIRD_TYPE = Normal_blue
 
 while True:
     for event in pygame.event.get():
@@ -193,36 +224,42 @@ while True:
             if event.key == pygame.K_SPACE and not game_active:
                 game_active = True
                 pipe_list.clear() #restoring initial conditions of game, otherwise we would met bugs
-                bird_rect.center = (int(BG_SIZE[0]/4), int(BG_SIZE[1]/4))
+                BIRD_TYPE.bird_rect.center = (int(BG_SIZE[0]/4), int(BG_SIZE[1]/4))
                 bird_movement = 0
                 score = 0
             if event.key == pygame.K_ESCAPE and not game_active:
                 pygame.quit()
                 sys.exit()
+            if event.key == pygame.K_7 and not game_active:
+                BIRD_TYPE = Mytnik
+            if event.key == pygame.K_6 and not game_active:
+                BIRD_TYPE = Strychala
+            if event.key == pygame.K_0 and not game_active:
+                BIRD_TYPE = Normal_blue
 
         if event.type == SPAWNPIPE:
             pipe_list.extend(create_pipe())
         if event.type == BIRDFLAP:
-            if bird_index < 2:
-                bird_index += 1
+            if BIRD_TYPE.bird_index < 2:
+                BIRD_TYPE.bird_index += 1
             else:
-                bird_index = 0
+                BIRD_TYPE.bird_index = 0
 
     screen.blit(bg_surface, (0, 0))
 
     if game_active:
         # Bird
         bird_movement += gravity
-        rotated_bird = rotate_bird(bird_frames[bird_index])
-        bird_rect.centery += bird_movement
+        rotated_bird = rotate_bird(BIRD_TYPE.bird_frames[BIRD_TYPE.bird_index])
+        BIRD_TYPE.bird_rect.centery += bird_movement
         if not(check_collision(pipe_list)):
             if score <= high_score:
-                Mytnik.end_sound.play()
+                Mytnik_sound.end_sound.play()
             else:
                 high_score = update_highscore(score, high_score)
             game_active = False #checking whether you touched pipe or bottom/top and ending game
 
-        screen.blit(rotated_bird, bird_rect)
+        screen.blit(rotated_bird, BIRD_TYPE.bird_rect)
         # Pipes
         pipe_list = move_pipes(pipe_list, pipe_spd=PIPE_SPEED)
         draw_pipes(pipe_list, screen)
