@@ -12,13 +12,7 @@ PIPE_SPEED = 5
 
 class HeroFace:
 
-    def __init__(self, downflap_path, midflap_path, upflap_path, name, highscore=0):
-        # self.hero_look_surface = pygame.image.load(HERO_PATH + look_path).convert()
-        # self.hero_look_surface = pygame.transform.scale(self.hero_look_surface, BG_SIZE)
-        # self.end_picture_surface = pygame.image.load(HERO_PATH + end_game_path).convert()
-        # self.end_picture_surface = pygame.transform.scale(self.end_picture_surface, BG_SIZE)
-        # self.rect = self.hero_look_surface.get_rect(center=(int(BG_SIZE[0] / 2), int(BG_SIZE[1] / 2)))
-
+    def __init__(self, downflap_path, midflap_path, upflap_path, hero_name, start_sound_list, end_sound_list, highscore=0):
         self.bird_downflap = pygame.image.load(HERO_PATH + downflap_path).convert_alpha()
         self.bird_downflap = pygame.transform.scale(self.bird_downflap, (int(BG_SIZE[0] / 12.5), int(BG_SIZE[1] / 15)))
         self.bird_midflap = pygame.image.load(HERO_PATH + midflap_path).convert_alpha()
@@ -30,23 +24,18 @@ class HeroFace:
         self.bird_surface = self.bird_frames[self.bird_index]
         self.bird_rect = self.bird_surface.get_rect(center=(int(BG_SIZE[0] / 4), int(BG_SIZE[1] / 4)))
         self.highscore = highscore
-        self.name = name
+        self.hero_name = hero_name
+        self.start_sound_list = start_sound_list
+        self.end_sound_list = end_sound_list
+
+    def play_start_sound(self):
+        self.start_sound_list[random.randint(0, len(self.start_sound_list) - 1)].play()
+
+    def play_end_sound(self):
+        self.end_sound_list[random.randint(0, len(self.end_sound_list) - 1)].play()
 
 
-class HeroSound:
-
-    def __init__(self, start_sound_path, death_sound_path, death_image_path):
-        self.start_sound = pygame.mixer.Sound(start_sound_path)
-        self.death_sound = pygame.mixer.Sound(death_sound_path)
-        self.death_image = pygame.image.load(death_image_path).convert_alpha()
-        self.death_image = pygame.transform.scale(self.death_image, (BG_SIZE[0], BG_SIZE[1]))
-        self.death_rect = game_over_surface.get_rect()
-
-    def show_death(self):
-        screen.blit(self.death_image, self.death_rect)
-        self.death_sound.play()
-
-
+#Floor_functions
 def draw_floor(screen, floor_x_pos):
     screen.blit(floor_surface, (floor_x_pos, BG_SIZE[1] - int(BG_SIZE[1] / 5)))
     screen.blit(floor_surface, (floor_x_pos + BG_SIZE[0], BG_SIZE[1] - int(BG_SIZE[1] / 5)))
@@ -75,11 +64,9 @@ def draw_pipes(pipes, screen):
             screen.blit(flip_pipe, pipe)
 
 
-def check_collision(pipes, birdtype_sound):
+def check_collision(pipes):
     for pipe in pipes:
         if BIRD_TYPE.bird_rect.colliderect(pipe):
-            if score <= high_score:
-                birdtype_sound.show_death()
             return False
 
     if BIRD_TYPE.bird_rect.top <= -int(BG_SIZE[1]*0.2) or BIRD_TYPE.bird_rect.bottom >= int(BG_SIZE[1]-BG_SIZE[1]/5):
@@ -97,12 +84,13 @@ def score_display(game_active, hero: HeroFace):
     score_surface = game_font.render("Score: " + str(int(score)), True, (255, 255, 255))
     score_rect = score_surface.get_rect(center=(int(BG_SIZE[0]/2), 60))
     screen.blit(score_surface, score_rect)
-    if not game_active:
-        highscore_surface = game_font.render(hero.name + " highscore: " + str(int(hero.highscore)), True, (255, 255, 255))
+    if not game_active and not settings_flag:
+        highscore_surface = game_font.render(hero.hero_name + " highscore: " + str(int(hero.highscore)), True, (255, 255, 255))
         highscore_surface_rect = highscore_surface.get_rect(center=(int(BG_SIZE[0] / 2), 110))
         screen.blit(highscore_surface, highscore_surface_rect)
 
 
+#Highscore functions
 def update_highscore(score, hero):
     if score > hero.highscore:
         hero.highscore = int(score)
@@ -111,6 +99,14 @@ def update_highscore(score, hero):
     return hero.highscore
 
 
+def save_highscores():
+    with open("highscore.txt", "w") as file:
+        file.write(str(Normal_blue.highscore) + "\n" + str(Mytnik.highscore) + "\n" + str(Strychala.highscore) +
+                   "\n" + str(Jacek.highscore))
+        file.close()
+
+
+#Draw functions
 def draw_choosing_hereos():
     hero_choosing_surface1 = game_font.render("Zjarany   1   ", True, (255, 255, 255))
     hero_choosing_surface_rect1 = hero_choosing_surface1.get_rect(center=(int(BG_SIZE[0] / 4), int(BG_SIZE[1]/20 * 4)))
@@ -121,7 +117,7 @@ def draw_choosing_hereos():
     hero_choosing_surface3 = game_font.render("Lysy   3       ", True, (255, 255, 255))
     hero_choosing_surface_rect3 = hero_choosing_surface3.get_rect(center=(int(BG_SIZE[0] / 4), int(BG_SIZE[1]/20 * 6)))
     screen.blit(hero_choosing_surface3, hero_choosing_surface_rect3)
-    hero_choosing_surface4 = game_font.render("Icy Tower   4", True, (255, 255, 255))
+    hero_choosing_surface4 = game_font.render("Jacula   4     ", True, (255, 255, 255))
     hero_choosing_surface_rect4 = hero_choosing_surface4.get_rect(center=(int(BG_SIZE[0] / 4), int(BG_SIZE[1]/20 * 7)))
     screen.blit(hero_choosing_surface4, hero_choosing_surface_rect4)
     hero_choosing_surface5 = game_font.render("    VicePresident   5", True, (255, 255, 255))
@@ -147,13 +143,59 @@ def draw_clown_surface():
     clown_surface = pygame.transform.scale(clown_surface, (BG_SIZE[0], BG_SIZE[1]))
     clown_rect = game_over_surface.get_rect()
     screen.blit(clown_surface, clown_rect)
-    time.sleep(1.5) #sleep after losing game
+    time.sleep(1.25) #sleep after losing game
 
 
-def save_highscores():
-    with open("highscore.txt", "w") as file:
-        file.write(str(Normal_blue.highscore) + "\n" + str(Mytnik.highscore) + "\n" + str(Strychala.highscore))
-        file.close()
+#Functions with sounds_lists
+def draw_settings():
+    resolution_surface = game_font.render("Resolution ", True, (255, 255, 255))
+    resolution_surface_rect = resolution_surface.get_rect(center=(int(BG_SIZE[0] / 2), int(BG_SIZE[1]/20 * 12)))
+    screen.blit(resolution_surface, resolution_surface_rect)
+    screen.blit(bg_surface, (0, 0))
+    #TODO
+
+
+def make_Jacek_elist():
+    Jacek_sound_end = list()
+    Jacek_sound_end.append(pygame.mixer.Sound("sound/end_sound/Jacek/ani obejrzec wykladu.wav"))
+    Jacek_sound_end.append(pygame.mixer.Sound("sound/end_sound/Jacek/co to kurwa za hitboxy.wav"))
+    Jacek_sound_end.append(pygame.mixer.Sound("sound/end_sound/Jacek/co za grek jebany.wav"))
+    Jacek_sound_end.append(pygame.mixer.Sound("sound/end_sound/Jacek/Co za pojeebana gra.wav"))
+    Jacek_sound_end.append(pygame.mixer.Sound("sound/end_sound/Jacek/cos sie popsulo to zagram jeszcze raz.wav"))
+    Jacek_sound_end.append(pygame.mixer.Sound("sound/end_sound/Jacek/fatalny to ty jestes.wav"))
+    Jacek_sound_end.append(pygame.mixer.Sound("sound/end_sound/Jacek/ja mam to w pizdzie.wav"))
+    Jacek_sound_end.append(pygame.mixer.Sound("sound/end_sound/Jacek/Japierdoleee.wav"))
+    Jacek_sound_end.append(pygame.mixer.Sound("sound/end_sound/Jacek/kurwaaaa.wav"))
+    Jacek_sound_end.append(pygame.mixer.Sound("sound/end_sound/Jacek/Nie, nie da sie grac.wav"))
+    Jacek_sound_end.append(pygame.mixer.Sound("sound/end_sound/Jacek/no i w pizdu.wav"))
+    Jacek_sound_end.append(pygame.mixer.Sound("sound/end_sound/Jacek/no nie da sie kurwa grac.wav"))
+    Jacek_sound_end.append(pygame.mixer.Sound("sound/end_sound/Jacek/pal sie ptaku.wav"))
+    Jacek_sound_end.append(pygame.mixer.Sound("sound/end_sound/Jacek/to jest jakies kurwa nieporozumienie.wav"))
+    Jacek_sound_end.append(pygame.mixer.Sound("sound/end_sound/Jacek/twoj wynik to jest jakas porazka.wav"))
+    Jacek_sound_end.append(pygame.mixer.Sound("sound/end_sound/Jacek/W chuju to mam.wav"))
+    Jacek_sound_end.append(pygame.mixer.Sound("sound/end_sound/Jacek/z takim wynikiem to was sie powinno jebac.wav"))
+    return Jacek_sound_end
+
+
+def make_Jacek_slist():
+    Jacek_sound_start = list()
+    Jacek_sound_start.append(pygame.mixer.Sound("sound/start_sound/Jacek/halo_karthus.wav"))
+    Jacek_sound_start.append(pygame.mixer.Sound("sound/start_sound/Jacek/i believe i can fly.wav"))
+    return Jacek_sound_start
+
+
+def make_Maciek_elist():
+    Mytnik_sound_end = list()
+    Mytnik_sound_end.append(pygame.mixer.Sound("sound/end_sound/Mytnik/kur.wav"))
+    Mytnik_sound_end.append(pygame.mixer.Sound("sound/end_sound/Mytnik/kuuurwa.wav"))
+    return Mytnik_sound_end
+
+
+def make_Maciek_slist():
+    Mytnik_sound_start = list()
+    Mytnik_sound_start.append(pygame.mixer.Sound("sound/start_sound/Mytnik/halo_karthus.wav"))
+    Mytnik_sound_start.append(pygame.mixer.Sound("sound/start_sound/Mytnik/i believe i can fly.wav"))
+    return Mytnik_sound_start
 
 #-------------------------------------------------------------------------#
 #-----------------------------------------------------------------------#
@@ -182,23 +224,9 @@ floor_x_pos = 0
 #only for mouse purpose
 hero_choosing_surface10 = game_font.render("Settings", True, (255, 255, 255))
 hero_choosing_surface_rect10 = hero_choosing_surface10.get_rect(center=(int(BG_SIZE[0] / 2), int(BG_SIZE[1] / 20 * 15)))
-#Bird_face
-# bird_downflap = pygame.image.load(IMG_PATH + "bluebird-downflap.png").convert_alpha()
-# bird_downflap = pygame.transform.scale(bird_downflap, (int(BG_SIZE[0]/15), int(BG_SIZE[1]/20)))
-# bird_midflap = pygame.image.load(IMG_PATH + "bluebird-midflap.png").convert_alpha()
-# bird_midflap = pygame.transform.scale(bird_midflap, (int(BG_SIZE[0]/15), int(BG_SIZE[1]/20)))
-# bird_upflap = pygame.image.load(IMG_PATH + "bluebird-upflap.png").convert_alpha()
-# bird_upflap = pygame.transform.scale(bird_upflap, (int(BG_SIZE[0]/15), int(BG_SIZE[1]/20)))
-# bird_frames = [bird_downflap, bird_midflap, bird_upflap]
-# bird_index = 0
-# bird_surface = bird_frames[bird_index]
-# bird_rect = bird_surface.get_rect(center=(int(BG_SIZE[0]/4), int(BG_SIZE[1]/4)))
 
 BIRDFLAP = pygame.USEREVENT + 1
 pygame.time.set_timer(BIRDFLAP, 200)
-# bird_surface = pygame.image.load(IMG_PATH + "bluebird-midflap.png").convert_alpha()
-# bird_surface = pygame.transform.scale(bird_surface, (int(BG_SIZE[0]/15), int(BG_SIZE[1]/20)))
-# bird_rect = bird_surface.get_rect(center=(int(BG_SIZE[0]/4), int(BG_SIZE[1]/4)))
 
 pipe_surface = pygame.image.load(IMG_PATH + "pipe-green.png")
 #pipe_surface = pygame.image.load(IMG_PATH + "wodka.jpg")
@@ -219,24 +247,31 @@ score_sound = pygame.mixer.Sound("sound/sfx_point.wav")
 beat_highscore_sound = pygame.mixer.Sound("sound/win.mp3")
 settings_flag = False
 
-#NormalBird = HeroFace()
+
 with open("highscore.txt", 'r') as f:
     Normal_highscore = int(f.readline())
     Mytnik_highscore = int(f.readline())
     Strychala_highscore = int(f.readline())
+    Jacek_highscore = int(f.readline())
     f.close()
 
+#listy z dźwiękami
+Jacek_sound_start = make_Jacek_slist()
+Jacek_sound_end = make_Jacek_elist()
+Mytnik_sound_end = make_Maciek_elist()
+Mytnik_sound_start = make_Maciek_slist()
 
 
-Mytnik = HeroFace("Mytnik/Mytnik_face_down.png", "Mytnik/Mytnik_face_mid.png", "Mytnik/Mytnik_face_up.png", "Mytniś", Mytnik_highscore)
-Mytnik_sound = HeroSound("sound/start_sound/Mytnik_start.wav", "sound/end_sound/Mytnik_end_sound.wav", "heroes/Mytnik/Mytnik_end.png")
-Normal_blue = HeroFace("Normal_blue/bluebird-downflap.png", "Normal_blue/bluebird-midflap.png", "Normal_blue/bluebird-upflap.png", "Bluebird", Normal_highscore)
-Normal_blue_sound = HeroSound("sound/sfx_die.wav", "sound/sfx_die.wav", "imgs/gameover.png")
-Strychala = HeroFace("Strychala/Strychala_face_down2.png", "Strychala/Strychala_face_mid2.png", "Strychala/Strychala_face_up2.png", "Strychala", Strychala_highscore)
-Strychala_sound = HeroSound(HERO_PATH + "Strychala/pierd.wav", HERO_PATH + "Strychala/pierd2.wav", HERO_PATH + "Strychala/Strychala_dupa.jpg")
+
+Mytnik = HeroFace("Mytnik/Mytnik_face_down.png", "Mytnik/Mytnik_face_mid.png", "Mytnik/Mytnik_face_up.png", "Mytniś:", Mytnik_sound_start, Mytnik_sound_end, Mytnik_highscore)
+
+Normal_blue = HeroFace("Normal_blue/bluebird-downflap.png", "Normal_blue/bluebird-midflap.png", "Normal_blue/bluebird-upflap.png",  "Bluebird", Mytnik_sound_start, Mytnik_sound_end, Normal_highscore)
+
+Strychala = HeroFace("Strychala/Strychala_face_down2.png", "Strychala/Strychala_face_mid2.png", "Strychala/Strychala_face_up2.png",  "Strychala", Mytnik_sound_start, Mytnik_sound_end, Strychala_highscore)
+#
+Jacek = HeroFace("Jacek/Jacek_down.png", "Jacek/Jacek_mid.png", "Jacek/Jacek_up.png", "Jacula", Jacek_sound_start, Jacek_sound_end, Jacek_highscore)
+
 BIRD_TYPE = Normal_blue
-BIRD_TYPE_SOUND = Normal_blue_sound
-
 
 while True:
     for event in pygame.event.get():
@@ -252,6 +287,7 @@ while True:
                 game_active = True
                 pipe_list.clear() #restoring initial conditions of game, otherwise we would met bugs
                 PIPE_SPEED = 5
+                BIRD_TYPE.play_start_sound()
                 BIRD_TYPE.bird_rect.center = (int(BG_SIZE[0]/4), int(BG_SIZE[1]/4))
                 bird_movement = 0
                 score = 0
@@ -260,13 +296,19 @@ while True:
                 sys.exit()
             if event.key == pygame.K_7 and not game_active:
                 BIRD_TYPE = Mytnik
-                BIRD_TYPE_SOUND = Mytnik_sound
             if event.key == pygame.K_6 and not game_active:
                 BIRD_TYPE = Strychala
-                BIRD_TYPE_SOUND = Strychala_sound
+            if event.key == pygame.K_4 and not game_active:
+                BIRD_TYPE = Jacek
             if event.key == pygame.K_0 and not game_active:
                 BIRD_TYPE = Normal_blue
-                BIRD_TYPE_SOUND = Normal_blue_sound
+            if event.key == pygame.K_s and not game_active:
+                settings_flag = True
+                draw_settings()
+                settings_flag = not settings_flag
+                #reaction -> change_settings()
+                #escape -> change flag
+
         #settings
         if event.type == pygame.MOUSEBUTTONUP and not game_active:
             mouse_postion = pygame.mouse.get_pos()
@@ -279,9 +321,11 @@ while True:
                 #do speed change
                 #do color of backgroumd change
                 #do żubrówka change
+                # screen.blit(game_over_surface, game_over_rect)
+                # screen.blit(Mytnik.hero_look_surface, Mytnik.rect)
                 screen.blit(bg_surface, (0, 0))
-                BIRD_TYPE_SOUND.show_death()
-                settings_flag = not settings_flag
+                BIRD_TYPE.play_end_sound()
+                # settings_flag = not settings_flag
 
         if event.type == SPAWNPIPE:
             pipe_list.extend(create_pipe())
@@ -298,9 +342,12 @@ while True:
         bird_movement += gravity
         rotated_bird = rotate_bird(BIRD_TYPE.bird_frames[BIRD_TYPE.bird_index])
         BIRD_TYPE.bird_rect.centery += bird_movement
-        if not(check_collision(pipe_list, BIRD_TYPE_SOUND)):
+        if not(check_collision(pipe_list)):
             if score > BIRD_TYPE.highscore:
                 BIRD_TYPE.highscore = update_highscore(score, BIRD_TYPE)
+            else:
+                BIRD_TYPE.play_end_sound()
+            time.sleep(2)
             game_active = False #checking whether you touched pipe or bottom/top and ending game
 
         screen.blit(rotated_bird, BIRD_TYPE.bird_rect)
@@ -314,8 +361,9 @@ while True:
     else:
         # screen.blit(game_over_surface, game_over_rect)
         # screen.blit(Mytnik.hero_look_surface, Mytnik.rect)
-        draw_clown_surface()
+
         if not settings_flag:
+            draw_clown_surface()
             draw_choosing_hereos()
 
 
@@ -332,3 +380,24 @@ while True:
     pygame.display.update()
     clock.tick(90)
 
+
+#TODO LIST
+#Remove sounds interupting
+#Develope setting menu
+#Create normal_bird features
+#Apply dark and żubrówka mode
+#Develop new heroes
+#check collision - bigger tolerance
+
+#PREVIOUS CODE
+#Bird_face
+# bird_downflap = pygame.image.load(IMG_PATH + "bluebird-downflap.png").convert_alpha()
+# bird_downflap = pygame.transform.scale(bird_downflap, (int(BG_SIZE[0]/15), int(BG_SIZE[1]/20)))
+# bird_midflap = pygame.image.load(IMG_PATH + "bluebird-midflap.png").convert_alpha()
+# bird_midflap = pygame.transform.scale(bird_midflap, (int(BG_SIZE[0]/15), int(BG_SIZE[1]/20)))
+# bird_upflap = pygame.image.load(IMG_PATH + "bluebird-upflap.png").convert_alpha()
+# bird_upflap = pygame.transform.scale(bird_upflap, (int(BG_SIZE[0]/15), int(BG_SIZE[1]/20)))
+# bird_frames = [bird_downflap, bird_midflap, bird_upflap]
+# bird_index = 0
+# bird_surface = bird_frames[bird_index]
+# bird_rect = bird_surface.get_rect(center=(int(BG_SIZE[0]/4), int(BG_SIZE[1]/4)))
