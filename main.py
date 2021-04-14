@@ -95,6 +95,7 @@ def update_highscore(score, hero):
     if score > hero.highscore:
         hero.highscore = int(score)
         beat_highscore_sound.play()
+        pygame.time.wait(2000)
         save_highscores()
     return hero.highscore
 
@@ -102,7 +103,7 @@ def update_highscore(score, hero):
 def save_highscores():
     with open("highscore.txt", "w") as file:
         file.write(str(Normal_blue.highscore) + "\n" + str(Mytnik.highscore) + "\n" + str(Strychala.highscore) +
-                   "\n" + str(Jacek.highscore))
+                   "\n" + str(Jacek.highscore) + "\n" + str(Jasiek_highscore))
         file.close()
 
 
@@ -146,13 +147,37 @@ def draw_clown_surface():
     time.sleep(1.25) #sleep after losing game
 
 
-#Functions with sounds_lists
 def draw_settings():
     resolution_surface = game_font.render("Resolution ", True, (255, 255, 255))
     resolution_surface_rect = resolution_surface.get_rect(center=(int(BG_SIZE[0] / 2), int(BG_SIZE[1]/20 * 12)))
     screen.blit(resolution_surface, resolution_surface_rect)
     screen.blit(bg_surface, (0, 0))
     #TODO
+
+
+#Functions with sounds_lists
+def make_background_music_list():
+    background_music_list = list()
+    background_music_list.append("music_in_back/Jaramy_Jaramy.mp3")
+    background_music_list.append("music_in_back/Czuje_banie.mp3")
+    background_music_list.append("music_in_back/Young_Kit$hxOlaf_PDW.mp3")
+    return background_music_list
+
+
+def play_background_music():
+    pygame.mixer.music.load(background_music_list[0])
+    pygame.mixer.music.play()
+    for el in background_music_list[1:]:
+        pygame.mixer.music.queue(el)
+
+
+def switch_music(flag_music):
+    if flag_music:
+        pygame.mixer.music.pause()
+        return not flag_music
+    else:
+        pygame.mixer.music.unpause()
+        return not flag_music
 
 
 def make_Jacek_elist():
@@ -179,7 +204,7 @@ def make_Jacek_elist():
 
 def make_Jacek_slist():
     Jacek_sound_start = list()
-    Jacek_sound_start.append(pygame.mixer.Sound("sound/start_sound/Jacek/halo_karthus.wav"))
+    # Jacek_sound_start.append(pygame.mixer.Sound("sound/start_sound/Jacek/halo_karthus.wav"))
     Jacek_sound_start.append(pygame.mixer.Sound("sound/start_sound/Jacek/i believe i can fly.wav"))
     return Jacek_sound_start
 
@@ -196,6 +221,7 @@ def make_Maciek_slist():
     Mytnik_sound_start.append(pygame.mixer.Sound("sound/start_sound/Mytnik/halo_karthus.wav"))
     Mytnik_sound_start.append(pygame.mixer.Sound("sound/start_sound/Mytnik/i believe i can fly.wav"))
     return Mytnik_sound_start
+
 
 #-------------------------------------------------------------------------#
 #-----------------------------------------------------------------------#
@@ -253,9 +279,12 @@ with open("highscore.txt", 'r') as f:
     Mytnik_highscore = int(f.readline())
     Strychala_highscore = int(f.readline())
     Jacek_highscore = int(f.readline())
+    Jasiek_highscore = int(f.readline())
     f.close()
 
 #listy z dźwiękami
+background_music_list = make_background_music_list()
+
 Jacek_sound_start = make_Jacek_slist()
 Jacek_sound_end = make_Jacek_elist()
 Mytnik_sound_end = make_Maciek_elist()
@@ -268,12 +297,18 @@ Mytnik = HeroFace("Mytnik/Mytnik_face_down.png", "Mytnik/Mytnik_face_mid.png", "
 Normal_blue = HeroFace("Normal_blue/bluebird-downflap.png", "Normal_blue/bluebird-midflap.png", "Normal_blue/bluebird-upflap.png",  "Bluebird", Mytnik_sound_start, Mytnik_sound_end, Normal_highscore)
 
 Strychala = HeroFace("Strychala/Strychala_face_down2.png", "Strychala/Strychala_face_mid2.png", "Strychala/Strychala_face_up2.png",  "Strychala", Mytnik_sound_start, Mytnik_sound_end, Strychala_highscore)
-#
+
 Jacek = HeroFace("Jacek/Jacek_down.png", "Jacek/Jacek_mid.png", "Jacek/Jacek_up.png", "Jacula", Jacek_sound_start, Jacek_sound_end, Jacek_highscore)
 
+Jasiek = HeroFace("Jasiek/Jasiek_down.png", "Jasiek/Jasiek_mid.png", "Jasiek/Jasiek_up.png", "Jasiu", Jacek_sound_start, Jacek_sound_end, Jasiek_highscore)
 BIRD_TYPE = Normal_blue
 
+#music setting
+play_background_music()
+pygame.mixer.music.set_volume(0.23)
+music_switch = True
 while True:
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -300,6 +335,8 @@ while True:
                 BIRD_TYPE = Strychala
             if event.key == pygame.K_4 and not game_active:
                 BIRD_TYPE = Jacek
+            if event.key == pygame.K_1 and not game_active:
+                BIRD_TYPE = Jasiek
             if event.key == pygame.K_0 and not game_active:
                 BIRD_TYPE = Normal_blue
             if event.key == pygame.K_s and not game_active:
@@ -308,7 +345,9 @@ while True:
                 settings_flag = not settings_flag
                 #reaction -> change_settings()
                 #escape -> change flag
-
+            if event.key == pygame.K_m:
+                #turn off music
+                music_switch = switch_music(music_switch)
         #settings
         if event.type == pygame.MOUSEBUTTONUP and not game_active:
             mouse_postion = pygame.mouse.get_pos()
@@ -347,6 +386,7 @@ while True:
                 BIRD_TYPE.highscore = update_highscore(score, BIRD_TYPE)
             else:
                 BIRD_TYPE.play_end_sound()
+                pygame.time.wait(2000)
             time.sleep(2)
             game_active = False #checking whether you touched pipe or bottom/top and ending game
 
