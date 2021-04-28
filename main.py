@@ -96,10 +96,14 @@ def score_display(game_active, hero: HeroFace):
     score_surface = game_font.render("Score: " + str(int(score)), True, (255, 255, 255))
     score_rect = score_surface.get_rect(center=(int(BG_SIZE[0]/2), 60))
     screen.blit(score_surface, score_rect)
-    if not game_active and not settings_flag:
-        highscore_surface = game_font.render(hero.hero_name + " highscore: " + str(int(hero.highscore)), True, (255, 255, 255))
-        highscore_surface_rect = highscore_surface.get_rect(center=(int(BG_SIZE[0] / 2), 110))
-        screen.blit(highscore_surface, highscore_surface_rect)
+    # if not game_active and not settings_flag:
+
+
+def highscore_display(hero: HeroFace):
+    highscore_surface = game_font.render(hero.hero_name + " highscore: " + str(int(hero.highscore)), True, (255, 255, 255))
+    highscore_surface_rect = highscore_surface.get_rect(center=(int(BG_SIZE[0] / 2), 110))
+    screen.blit(highscore_surface, highscore_surface_rect)
+
 
 
 #Highscore functions
@@ -119,8 +123,13 @@ def save_highscores():
         file.close()
 
 
-def show_screen(screen, pos):
-    pass
+def you_lost_display(hero: HeroFace):
+    game_font2 = pygame.font.Font("04B_19.ttf", 80)
+    surface1 = game_font2.render("You lost!!!", True, (255, 255, 255))
+    surface1_rect = surface1.get_rect(center=(int(BG_SIZE[0] / 2), int(BG_SIZE[1] / 3)))
+    screen.blit(surface1, surface1_rect)
+
+    # funny_image =
 
 #Draw functions
 def draw_choosing_hereos():
@@ -152,6 +161,103 @@ def draw_choosing_hereos():
     hero_choosing_surface_rect9 = hero_choosing_surface9.get_rect(center=(int(BG_SIZE[0] / 4), int(BG_SIZE[1]/20 * 12)))
     screen.blit(hero_choosing_surface9, hero_choosing_surface_rect9)
     screen.blit(hero_choosing_surface10, hero_choosing_surface_rect10)
+
+
+def draw_choosing_hereos2(Max_flag, Jacek_flag, Olaf_flag, Mytnik_flag, Fido_flag, Jasiek_flag, Maksiu_flag, Gacek_flag):
+    game_font3 = pygame.font.Font("04B_19.ttf", 50)
+
+    highscore_surface = game_font3.render("Choose your hero: ", True, (255, 255, 255))
+    highscore_surface_rect = highscore_surface.get_rect(center=(int(BG_SIZE[0]/2), int(BG_SIZE[1]/20)))
+    screen.blit(highscore_surface, highscore_surface_rect)
+
+    if Olaf_flag:
+        Olaf_choose_im_color = pygame.image.load("intro/Olaf_color.png").convert_alpha()
+        Olaf_choose_im_color = pygame.transform.scale(Olaf_choose_im_color, (int(BG_SIZE[0]/5)+10, int(BG_SIZE[0]/5)+10))
+        Olaf_choose_color_rect = Olaf_choose_im_color.get_rect()
+        screen.blit(Olaf_choose_im_color, dest=[int(BG_SIZE[0] / 10), int(BG_SIZE[1] / 2.5)])
+    else:
+        Olaf_choose_im = pygame.image.load("intro/Olaf.png").convert_alpha()
+        Olaf_choose_im = pygame.transform.scale(Olaf_choose_im, (int(BG_SIZE[0]/5), int(BG_SIZE[0]/5)))
+        Olaf_choose_rect = Olaf_choose_im.get_rect()
+        screen.blit(Olaf_choose_im, dest=[int(BG_SIZE[0]/10), int(BG_SIZE[1]/2.5)])
+
+
+    if Mytnik_flag:
+        Mytnik_choose_im_color = pygame.image.load("intro/Mytnik_color.png").convert_alpha()
+        Mytnik_choose_im_color = pygame.transform.scale(Mytnik_choose_im_color, (int(BG_SIZE[0] / 5) + 10, int(BG_SIZE[0] / 5) + 10))
+        Mytnik_choose_rect = Mytnik_choose_im_color.get_rect()
+        screen.blit(Mytnik_choose_im_color, dest=[int(BG_SIZE[0] / 10) * 4, int(BG_SIZE[1] / 2.5)])
+    else:
+        Mytnik_choose_im = pygame.image.load("intro/Mytnik.png").convert_alpha()
+        Mytnik_choose_im = pygame.transform.scale(Mytnik_choose_im, (int(BG_SIZE[0]/5), int(BG_SIZE[0]/5)))
+        Mytnik_choose_rect = Mytnik_choose_im.get_rect()
+        screen.blit(Mytnik_choose_im, dest=[int(BG_SIZE[0]/10) * 4, int(BG_SIZE[1]/2.5)])
+
+    if Fido_flag:
+        Fido_choose_im_color = pygame.image.load("intro/Fido_color.png").convert_alpha()
+        Fido_choose_im_color = pygame.transform.scale(Fido_choose_im_color, (int(BG_SIZE[0] / 5) + 10, int(BG_SIZE[0] / 5)+10))
+        Fido_choose_color_rect = Fido_choose_im_color.get_rect()
+        screen.blit(Fido_choose_im_color, dest=[int(BG_SIZE[0] / 10) * 7, int(BG_SIZE[1] / 2.5)])
+    else:
+        Fido_choose_im = pygame.image.load("intro/Fido.png").convert_alpha()
+        Fido_choose_im = pygame.transform.scale(Fido_choose_im, (int(BG_SIZE[0] / 5), int(BG_SIZE[0] / 5)))
+        Fido_choose_rect = Fido_choose_im.get_rect()
+        screen.blit(Fido_choose_im, dest=[int(BG_SIZE[0] / 10) * 7, int(BG_SIZE[1] / 2.5)])
+
+    if Jasiek_flag:
+        Jasiek_choose_im_color = pygame.image.load("intro/Jasiek_color.png").convert_alpha()
+        Jasiek_choose_im_color = pygame.transform.scale(Jasiek_choose_im_color, (int(BG_SIZE[0] / 5) + 10, int(BG_SIZE[0] / 5)+10))
+        Jasiek_choose_color_rect = Jasiek_choose_im_color.get_rect()
+        screen.blit(Jasiek_choose_im_color, dest=[int(BG_SIZE[0] / 10), int(BG_SIZE[1] / 1.7)])
+    else:
+        Jasiek_choose_im = pygame.image.load("intro/Jasiek.png").convert_alpha()
+        Jasiek_choose_im = pygame.transform.scale(Jasiek_choose_im, (int(BG_SIZE[0] / 5), int(BG_SIZE[0] / 5)))
+        Jasiek_choose_rect = Jasiek_choose_im.get_rect()
+        screen.blit(Jasiek_choose_im, dest=[int(BG_SIZE[0] / 10), int(BG_SIZE[1] / 1.7)])
+
+    if Maksiu_flag:
+        Maksiu_choose_im_color = pygame.image.load("intro/Maksymowicz_color.png").convert_alpha()
+        Maksiu_choose_im_color = pygame.transform.scale(Maksiu_choose_im_color, (int(BG_SIZE[0] / 5) + 10, int(BG_SIZE[0] / 5)+10))
+        Maksiu_choose_rect_color = Maksiu_choose_im_color.get_rect()
+        screen.blit(Maksiu_choose_im_color, dest=[int(BG_SIZE[0] / 10) * 4, int(BG_SIZE[1] / 1.7)])
+    else:
+        Maksiu_choose_im = pygame.image.load("intro/Maksymowicz.png").convert_alpha()
+        Maksiu_choose_im = pygame.transform.scale(Maksiu_choose_im, (int(BG_SIZE[0] / 5), int(BG_SIZE[0] / 5)))
+        Maksiu_choose_rect = Maksiu_choose_im.get_rect()
+        screen.blit(Maksiu_choose_im, dest=[int(BG_SIZE[0] / 10) * 4, int(BG_SIZE[1] / 1.7)])
+
+    if Gacek_flag:
+        Gacek_choose_im_color = pygame.image.load("intro/Gacek_color.png").convert_alpha()
+        Gacek_choose_im_color = pygame.transform.scale(Gacek_choose_im_color, (int(BG_SIZE[0] / 5), int(BG_SIZE[0] / 5)))
+        Gacek_choose_rect_color = Gacek_choose_im_color.get_rect()
+        screen.blit(Gacek_choose_im_color, dest=[int(BG_SIZE[0] / 10) * 7, int(BG_SIZE[1] / 1.7)])
+    else:
+        Gacek_choose_im = pygame.image.load("intro/Gacek.png").convert_alpha()
+        Gacek_choose_im = pygame.transform.scale(Gacek_choose_im, (int(BG_SIZE[0] / 5), int(BG_SIZE[0] / 5)))
+        Gacek_choose_rect = Gacek_choose_im.get_rect()
+        screen.blit(Gacek_choose_im, dest=[int(BG_SIZE[0] / 10) * 7, int(BG_SIZE[1] / 1.7)])
+
+    if Max_flag:
+        Max_choose_im_color = pygame.image.load("intro/Max_color.png").convert_alpha()
+        Max_choose_im_color = pygame.transform.scale(Max_choose_im_color, (int(BG_SIZE[0] / 5), int(BG_SIZE[0] / 5)))
+        Max_choose_color_rect = Max_choose_im_color.get_rect()
+        screen.blit(Max_choose_im_color, dest=[int(BG_SIZE[0] / 10) * 2.5, int(BG_SIZE[1] / 4.8)])
+    else:
+        Max_choose_im = pygame.image.load("intro/Max.png").convert_alpha()
+        Max_choose_im = pygame.transform.scale(Max_choose_im, (int(BG_SIZE[0] / 5), int(BG_SIZE[0] / 5)))
+        Max_choose_rect = Max_choose_im.get_rect()
+        screen.blit(Max_choose_im, dest=[int(BG_SIZE[0] / 10) * 2.5, int(BG_SIZE[1] / 4.8)])
+
+    if Jacek_flag:
+        Jacek_choose_im_color = pygame.image.load("intro/Jacek_color.png").convert_alpha()
+        Jacek_choose_im_color = pygame.transform.scale(Jacek_choose_im_color, (int(BG_SIZE[0] / 5), int(BG_SIZE[0] / 5)))
+        Jacek_choose_color_rect = Jacek_choose_im_color.get_rect()
+        screen.blit(Jacek_choose_im_color, dest=[int(BG_SIZE[0] / 10) * 5.5, int(BG_SIZE[1] / 4.8)])
+    else:
+        Jacek_choose_im = pygame.image.load("intro/Jacek.png").convert_alpha()
+        Jacek_choose_im = pygame.transform.scale(Jacek_choose_im, (int(BG_SIZE[0] / 5), int(BG_SIZE[0] / 5)))
+        Jacek_choose_rect = Jacek_choose_im.get_rect()
+        screen.blit(Jacek_choose_im, dest=[int(BG_SIZE[0] / 10) * 5.5, int(BG_SIZE[1] / 4.8)])
 
 
 def draw_clown_surface():
@@ -306,7 +412,7 @@ death_sound = pygame.mixer.Sound("sound/sfx_hit.wav")
 score_sound = pygame.mixer.Sound("sound/sfx_point.wav")
 beat_highscore_sound = pygame.mixer.Sound("sound/win.mp3")
 settings_flag = False
-
+click_pos = [0, 0]
 
 with open("highscore.txt", 'r') as f:
     Normal_highscore = int(f.readline())
@@ -339,6 +445,19 @@ Jacek = HeroFace("Jacek/Jacek_down.png", "Jacek/Jacek_mid.png", "Jacek/Jacek_up.
 Jasiek = HeroFace("Jasiek/Jasiek_down.png", "Jasiek/Jasiek_mid.png", "Jasiek/Jasiek_up.png", "Jasiu", Jacek_sound_start, Jacek_sound_end, Jasiek_highscore)
 BIRD_TYPE = Normal_blue
 
+
+#for choosing flags
+Max_flag = False
+Jacek_flag = False
+Olaf_flag = False
+Mytnik_flag = False
+Fido_flag = False
+Jasiek_flag = False
+Maksiu_flag = False
+Gacek_flag = False
+
+
+
 #music setting
 play_background_music()
 pygame.mixer.music.set_volume(0.23)
@@ -346,6 +465,9 @@ music_switch = True
 while True:
 
     for event in pygame.event.get():
+        click_pos = [0, 0]
+        #mouse for choosing heroes
+
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
@@ -385,22 +507,22 @@ while True:
                 #turn off music
                 music_switch = switch_music(music_switch)
         #settings
-        if event.type == pygame.MOUSEBUTTONUP and not game_active:
-            mouse_postion = pygame.mouse.get_pos()
-            if hero_choosing_surface_rect10.collidepoint(mouse_postion) and pygame.mouse.get_pressed(num_buttons=5)[0]:
-                settings_flag = True
-                #TODO
-                #Show_settings_screen
-                #if choose something do something
-                #do resolution change
-                #do speed change
-                #do color of backgroumd change
-                #do żubrówka change
-                # screen.blit(game_over_surface, game_over_rect)
-                # screen.blit(Mytnik.hero_look_surface, Mytnik.rect)
-                screen.blit(bg_surface, (0, 0))
-                BIRD_TYPE.play_end_sound()
-                # settings_flag = not settings_flag
+        # if event.type == pygame.MOUSEBUTTONUP and not game_active:
+        #     mouse_postion = pygame.mouse.get_pos()
+        #     if hero_choosing_surface_rect10.collidepoint(mouse_postion) and pygame.mouse.get_pressed(num_buttons=5)[0]:
+        #         settings_flag = True
+        #         #TODO
+        #         #Show_settings_screen
+        #         #if choose something do something
+        #         #do resolution change
+        #         #do speed change
+        #         #do color of backgroumd change
+        #         #do żubrówka change
+        #         # screen.blit(game_over_surface, game_over_rect)
+        #         # screen.blit(Mytnik.hero_look_surface, Mytnik.rect)
+        #         screen.blit(bg_surface, (0, 0))
+        #         BIRD_TYPE.play_end_sound()
+        #         # settings_flag = not settings_flag
 
         if event.type == SPAWNPIPE:
             pipe_list.extend(create_pipe())
@@ -409,11 +531,14 @@ while True:
                 BIRD_TYPE.bird_index += 1
             else:
                 BIRD_TYPE.bird_index = 0
+        if event.type == pygame.MOUSEBUTTONUP:
+            click_pos = pygame.mouse.get_pos()
 
     screen.blit(bg_surface, (0, 0))
 
     if game_active:
         # Bird
+        score_display(game_active, BIRD_TYPE)
         bird_movement += gravity
         rotated_bird = rotate_bird(BIRD_TYPE.bird_frames[BIRD_TYPE.bird_index])
         BIRD_TYPE.bird_rect.centery += bird_movement
@@ -422,7 +547,12 @@ while True:
                 BIRD_TYPE.highscore = update_highscore(score, BIRD_TYPE)
             else:
                 BIRD_TYPE.play_end_sound()
-                pygame.time.wait(2000)
+                pygame.time.wait(750)
+                highscore_display(BIRD_TYPE)
+                you_lost_display(BIRD_TYPE)
+
+
+            pygame.display.update()
             time.sleep(2)
             game_active = False #checking whether you touched pipe or bottom/top and ending game
 
@@ -439,8 +569,51 @@ while True:
         # screen.blit(Mytnik.hero_look_surface, Mytnik.rect)
 
         if not settings_flag:
-            draw_clown_surface()
-            draw_choosing_hereos()
+            # draw_clown_surface()
+            if 210 < pygame.mouse.get_pos()[0] < 340 and 210 < pygame.mouse.get_pos()[1] < 340:
+                Max_flag = True
+                if 210 < click_pos[0] < 340 and 210 < click_pos[1] < 340:
+                    game_active = True
+                # if 210 < pygame.mouse.get_pos()[0] < 340 and 210 < pygame.mouse.get_pos()[1] < 340 and event.type == pygame.mouse.get_pressed(4):
+                #     game_active = True
+            else:
+                Max_flag = False
+
+            if 445 < pygame.mouse.get_pos()[0] < 600 and 225 < pygame.mouse.get_pos()[1] < 355:
+                Jacek_flag = True
+            else:
+                Jacek_flag = False
+
+            if 85 < pygame.mouse.get_pos()[0] < 240 and 400 < pygame.mouse.get_pos()[1] < 545:
+                Olaf_flag = True
+            else:
+                Olaf_flag = False
+
+            if 320 < pygame.mouse.get_pos()[0] < 475 and 405 < pygame.mouse.get_pos()[1] < 545:
+                Mytnik_flag = True
+            else:
+                Mytnik_flag = False
+
+            if 570 < pygame.mouse.get_pos()[0] < 705 and 405 < pygame.mouse.get_pos()[1] < 545:
+                Fido_flag = True
+            else:
+                Fido_flag = False
+
+            if 100 < pygame.mouse.get_pos()[0] < 220 and 595 < pygame.mouse.get_pos()[1] < 740:
+                Jasiek_flag = True
+            else:
+                Jasiek_flag = False
+
+            if 325 < pygame.mouse.get_pos()[0] < 465 and 595 < pygame.mouse.get_pos()[1] < 730:
+                Maksiu_flag = True
+            else:
+                Maksiu_flag = False
+
+            if 565 < pygame.mouse.get_pos()[0] < 705 and 600 < pygame.mouse.get_pos()[1] < 740:
+                Gacek_flag = True
+            else:
+                Gacek_flag = False
+        draw_choosing_hereos2(Max_flag, Jacek_flag, Olaf_flag, Mytnik_flag, Fido_flag, Jasiek_flag, Maksiu_flag, Gacek_flag)
 
 
 
@@ -452,7 +625,7 @@ while True:
     if floor_x_pos <= -BG_SIZE[0]:
         floor_x_pos = 0
 
-    score_display(game_active, BIRD_TYPE)
+    # score_display(game_active, BIRD_TYPE)
     pygame.display.update()
     clock.tick(90)
 
