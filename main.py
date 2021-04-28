@@ -2,6 +2,10 @@ import pygame, sys, random
 from typing import List
 import time
 
+#TODO ONE FUNCTION TO SHOW SCREEN
+# MORE SOUNDS
+# MORE HEREOS
+
 HERO_PATH = "./heroes/"
 IMG_PATH = "./imgs/"
 BG_SIZE = (800, 1000)
@@ -33,6 +37,14 @@ class HeroFace:
 
     def play_end_sound(self):
         self.end_sound_list[random.randint(0, len(self.end_sound_list) - 1)].play()
+
+    # def play_video(self, actual_score): #TODO movie module removed
+    #     screen = pygame.display.set_mode(self.video_list[0].get_size())
+    #     movie_screen = pygame.Surface(self.video_list[0].get_size().convert())
+    #     self.video_list[0].set_display(movie_screen)
+    #     if actual_score < 10:
+    #         self.video_list[0].play()
+    #         screen.blit(movie_screen, (0, 0))
 
 
 #Floor_functions
@@ -107,6 +119,9 @@ def save_highscores():
         file.close()
 
 
+def show_screen(screen, pos):
+    pass
+
 #Draw functions
 def draw_choosing_hereos():
     hero_choosing_surface1 = game_font.render("Zjarany   1   ", True, (255, 255, 255))
@@ -149,9 +164,10 @@ def draw_clown_surface():
 
 def draw_settings():
     resolution_surface = game_font.render("Resolution ", True, (255, 255, 255))
-    resolution_surface_rect = resolution_surface.get_rect(center=(int(BG_SIZE[0] / 2), int(BG_SIZE[1]/20 * 12)))
-    screen.blit(resolution_surface, resolution_surface_rect)
+    resolution_surface_rect = resolution_surface.get_rect(center=(int(BG_SIZE[0] / 4), int(BG_SIZE[1]/20 * 15)))
     screen.blit(bg_surface, (0, 0))
+    screen.blit(resolution_surface, resolution_surface_rect)
+
     #TODO
 
 
@@ -223,6 +239,24 @@ def make_Maciek_slist():
     return Mytnik_sound_start
 
 
+def make_classic_elist():
+    classic_e = list()
+    classic_e.append(pygame.mixer.Sound("sound/end_classics/wpizdu_wyladowal.mp3"))
+    classic_e.append(pygame.mixer.Sound("sound/end_classics/no_co_narobiliscie.mp3"))
+    return classic_e
+
+
+def make_classic_slist():
+    classic_s = list()
+    classic_s.append(pygame.mixer.Sound("sound/start_classics/bede_gral_w_gre.mp3"))
+    classic_s.append(pygame.mixer.Sound("sound/start_classics/jedziemy_malina.mp3"))
+    return classic_s
+
+
+# def make_classic_evideo(): #TODO pygame movie module was removed - probably it's impossible to put video into game
+#     classic_evideo = list()
+#     classic_evideo.append(pygame..Movie("video/classic_end/no_co_narobiliscie.mp4"))
+#     return classic_evideo
 #-------------------------------------------------------------------------#
 #-----------------------------------------------------------------------#
 
@@ -290,11 +324,13 @@ Jacek_sound_end = make_Jacek_elist()
 Mytnik_sound_end = make_Maciek_elist()
 Mytnik_sound_start = make_Maciek_slist()
 
+classic_end_sound = make_classic_elist()
+classic_start_sound = make_classic_slist()
 
 
 Mytnik = HeroFace("Mytnik/Mytnik_face_down.png", "Mytnik/Mytnik_face_mid.png", "Mytnik/Mytnik_face_up.png", "Mytniś:", Mytnik_sound_start, Mytnik_sound_end, Mytnik_highscore)
 
-Normal_blue = HeroFace("Normal_blue/bluebird-downflap.png", "Normal_blue/bluebird-midflap.png", "Normal_blue/bluebird-upflap.png",  "Bluebird", Mytnik_sound_start, Mytnik_sound_end, Normal_highscore)
+Normal_blue = HeroFace("Normal_blue/bluebird-downflap.png", "Normal_blue/bluebird-midflap.png", "Normal_blue/bluebird-upflap.png",  "Bluebird", Mytnik_sound_start, classic_end_sound, Normal_highscore)
 
 Strychala = HeroFace("Strychala/Strychala_face_down2.png", "Strychala/Strychala_face_mid2.png", "Strychala/Strychala_face_up2.png",  "Strychala", Mytnik_sound_start, Mytnik_sound_end, Strychala_highscore)
 
@@ -342,7 +378,7 @@ while True:
             if event.key == pygame.K_s and not game_active:
                 settings_flag = True
                 draw_settings()
-                settings_flag = not settings_flag
+                # settings_flag = not settings_flag
                 #reaction -> change_settings()
                 #escape -> change flag
             if event.key == pygame.K_m:
