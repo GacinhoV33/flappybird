@@ -105,7 +105,6 @@ def highscore_display(hero: HeroFace):
     screen.blit(highscore_surface, highscore_surface_rect)
 
 
-
 #Highscore functions
 def update_highscore(score, hero):
     if score > hero.highscore:
@@ -165,7 +164,6 @@ def draw_choosing_hereos():
 
 def draw_choosing_hereos2(Max_flag, Jacek_flag, Olaf_flag, Mytnik_flag, Fido_flag, Jasiek_flag, Maksiu_flag, Gacek_flag):
     game_font3 = pygame.font.Font("04B_19.ttf", 50)
-
     highscore_surface = game_font3.render("Choose your hero: ", True, (255, 255, 255))
     highscore_surface_rect = highscore_surface.get_rect(center=(int(BG_SIZE[0]/2), int(BG_SIZE[1]/20)))
     screen.blit(highscore_surface, highscore_surface_rect)
@@ -180,7 +178,6 @@ def draw_choosing_hereos2(Max_flag, Jacek_flag, Olaf_flag, Mytnik_flag, Fido_fla
         Olaf_choose_im = pygame.transform.scale(Olaf_choose_im, (int(BG_SIZE[0]/5), int(BG_SIZE[0]/5)))
         Olaf_choose_rect = Olaf_choose_im.get_rect()
         screen.blit(Olaf_choose_im, dest=[int(BG_SIZE[0]/10), int(BG_SIZE[1]/2.5)])
-
 
     if Mytnik_flag:
         Mytnik_choose_im_color = pygame.image.load("intro/Mytnik_color.png").convert_alpha()
@@ -260,19 +257,24 @@ def draw_choosing_hereos2(Max_flag, Jacek_flag, Olaf_flag, Mytnik_flag, Fido_fla
         screen.blit(Jacek_choose_im, dest=[int(BG_SIZE[0] / 10) * 5.5, int(BG_SIZE[1] / 4.8)])
 
 
-def draw_clown_surface():
-    clown_surface = pygame.image.load(IMG_PATH + "clown_together.jpg").convert_alpha()
-    clown_surface = pygame.transform.scale(clown_surface, (BG_SIZE[0], BG_SIZE[1]))
-    clown_rect = game_over_surface.get_rect()
-    screen.blit(clown_surface, clown_rect)
-    time.sleep(1.25) #sleep after losing game
+def show_hero_name(birdtype: HeroFace):
+    hero_choosing_surface1 = game_font.render(birdtype.hero_name, True, (255, 255, 255))
+    hero_choosing_surface_rect1 = hero_choosing_surface1.get_rect(center=(int(BG_SIZE[0] / 2), int(BG_SIZE[1] / 20 * 2.5)))
+    screen.blit(hero_choosing_surface1, hero_choosing_surface_rect1)
 
+# def draw_clown_surface():
+#     clown_surface = pygame.image.load(IMG_PATH + "clown_together.jpg").convert_alpha()
+#     clown_surface = pygame.transform.scale(clown_surface, (BG_SIZE[0], BG_SIZE[1]))
+#     clown_rect = game_over_surface.get_rect()
+#     screen.blit(clown_surface, clown_rect)
+#     time.sleep(1.25) #sleep after losing game
 
-def draw_settings():
-    resolution_surface = game_font.render("Resolution ", True, (255, 255, 255))
-    resolution_surface_rect = resolution_surface.get_rect(center=(int(BG_SIZE[0] / 4), int(BG_SIZE[1]/20 * 15)))
-    screen.blit(bg_surface, (0, 0))
-    screen.blit(resolution_surface, resolution_surface_rect)
+#
+# def draw_settings():
+#     resolution_surface = game_font.render("Resolution ", True, (255, 255, 255))
+#     resolution_surface_rect = resolution_surface.get_rect(center=(int(BG_SIZE[0] / 4), int(BG_SIZE[1]/20 * 15)))
+#     screen.blit(bg_surface, (0, 0))
+#     screen.blit(resolution_surface, resolution_surface_rect)
 
     #TODO
 
@@ -359,6 +361,12 @@ def make_classic_slist():
     return classic_s
 
 
+def restore_initial_sett():
+    pipe_list.clear()  # restoring initial conditions of game, otherwise we would met bugs
+    BIRD_TYPE.play_start_sound()
+    BIRD_TYPE.bird_rect.center = (int(BG_SIZE[0] / 4), int(BG_SIZE[1] / 4))
+
+
 # def make_classic_evideo(): #TODO pygame movie module was removed - probably it's impossible to put video into game
 #     classic_evideo = list()
 #     classic_evideo.append(pygame..Movie("video/classic_end/no_co_narobiliscie.mp4"))
@@ -434,7 +442,7 @@ classic_end_sound = make_classic_elist()
 classic_start_sound = make_classic_slist()
 
 
-Mytnik = HeroFace("Mytnik/Mytnik_face_down.png", "Mytnik/Mytnik_face_mid.png", "Mytnik/Mytnik_face_up.png", "Mytniś:", Mytnik_sound_start, Mytnik_sound_end, Mytnik_highscore)
+Mytnik = HeroFace("Mytnik/Mytnik_face_down.png", "Mytnik/Mytnik_face_mid.png", "Mytnik/Mytnik_face_up.png", "Mytnik:", Mytnik_sound_start, Mytnik_sound_end, Mytnik_highscore)
 
 Normal_blue = HeroFace("Normal_blue/bluebird-downflap.png", "Normal_blue/bluebird-midflap.png", "Normal_blue/bluebird-upflap.png",  "Bluebird", Mytnik_sound_start, classic_end_sound, Normal_highscore)
 
@@ -462,6 +470,7 @@ Gacek_flag = False
 play_background_music()
 pygame.mixer.music.set_volume(0.23)
 music_switch = True
+
 while True:
 
     for event in pygame.event.get():
@@ -497,9 +506,9 @@ while True:
                 BIRD_TYPE = Jasiek
             if event.key == pygame.K_0 and not game_active:
                 BIRD_TYPE = Normal_blue
-            if event.key == pygame.K_s and not game_active:
-                settings_flag = True
-                draw_settings()
+            # if event.key == pygame.K_s and not game_active:
+            #     settings_flag = True
+            #     draw_settings()
                 # settings_flag = not settings_flag
                 #reaction -> change_settings()
                 #escape -> change flag
@@ -523,7 +532,6 @@ while True:
         #         screen.blit(bg_surface, (0, 0))
         #         BIRD_TYPE.play_end_sound()
         #         # settings_flag = not settings_flag
-
         if event.type == SPAWNPIPE:
             pipe_list.extend(create_pipe())
         if event.type == BIRDFLAP:
@@ -531,6 +539,7 @@ while True:
                 BIRD_TYPE.bird_index += 1
             else:
                 BIRD_TYPE.bird_index = 0
+
         if event.type == pygame.MOUSEBUTTONUP:
             click_pos = pygame.mouse.get_pos()
 
@@ -542,7 +551,7 @@ while True:
         bird_movement += gravity
         rotated_bird = rotate_bird(BIRD_TYPE.bird_frames[BIRD_TYPE.bird_index])
         BIRD_TYPE.bird_rect.centery += bird_movement
-        if not(check_collision(pipe_list)):
+        if not (check_collision(pipe_list)):
             if score > BIRD_TYPE.highscore:
                 BIRD_TYPE.highscore = update_highscore(score, BIRD_TYPE)
             else:
@@ -551,10 +560,9 @@ while True:
                 highscore_display(BIRD_TYPE)
                 you_lost_display(BIRD_TYPE)
 
-
             pygame.display.update()
             time.sleep(2)
-            game_active = False #checking whether you touched pipe or bottom/top and ending game
+            game_active = False  # checking whether you touched pipe or bottom/top and ending game
 
         screen.blit(rotated_bird, BIRD_TYPE.bird_rect)
         # Pipes
@@ -562,61 +570,86 @@ while True:
         draw_pipes(pipe_list, screen)
         score += 0.01
         if score % 3 < 0.01:
-           PIPE_SPEED += 0.25
+            PIPE_SPEED += 0.25
 
     else:
         # screen.blit(game_over_surface, game_over_rect)
         # screen.blit(Mytnik.hero_look_surface, Mytnik.rect)
 
-        if not settings_flag:
-            # draw_clown_surface()
-            if 210 < pygame.mouse.get_pos()[0] < 340 and 210 < pygame.mouse.get_pos()[1] < 340:
-                Max_flag = True
-                if 210 < click_pos[0] < 340 and 210 < click_pos[1] < 340:
-                    game_active = True
-                # if 210 < pygame.mouse.get_pos()[0] < 340 and 210 < pygame.mouse.get_pos()[1] < 340 and event.type == pygame.mouse.get_pressed(4):
-                #     game_active = True
-            else:
-                Max_flag = False
+        # draw_clown_surface()
+        if 210 < pygame.mouse.get_pos()[0] < 340 and 210 < pygame.mouse.get_pos()[1] < 340:
+            Max_flag = True
+            BIRD_TYPE = Strychala
+            pygame.mouse.set_system_cursor(pygame.SYSTEM_CURSOR_HAND)
+            show_hero_name(BIRD_TYPE)
+            if 210 < click_pos[0] < 340 and 210 < click_pos[1] < 340:
+                restore_initial_sett()
+                PIPE_SPEED = 5
+                bird_movement = 0
+                score = 0
+                game_active = True
+                pygame.mouse.set_system_cursor(pygame.SYSTEM_CURSOR_ARROW)
 
-            if 445 < pygame.mouse.get_pos()[0] < 600 and 225 < pygame.mouse.get_pos()[1] < 355:
-                Jacek_flag = True
-            else:
-                Jacek_flag = False
+        else:
+            Max_flag = False
 
-            if 85 < pygame.mouse.get_pos()[0] < 240 and 400 < pygame.mouse.get_pos()[1] < 545:
-                Olaf_flag = True
-            else:
-                Olaf_flag = False
+        if 445 < pygame.mouse.get_pos()[0] < 600 and 225 < pygame.mouse.get_pos()[1] < 355:
+            Jacek_flag = True
+            BIRD_TYPE = Jacek
+            pygame.mouse.set_system_cursor(pygame.SYSTEM_CURSOR_HAND)
+            show_hero_name(BIRD_TYPE)
+            if 445 < click_pos[0] < 600 and 225 < click_pos[1] < 355:
+                restore_initial_sett()
+                PIPE_SPEED = 5
+                bird_movement = 0
+                score = 0
+                game_active = True
+                pygame.mouse.set_system_cursor(pygame.SYSTEM_CURSOR_ARROW)
+        else:
+            Jacek_flag = False
 
-            if 320 < pygame.mouse.get_pos()[0] < 475 and 405 < pygame.mouse.get_pos()[1] < 545:
-                Mytnik_flag = True
-            else:
-                Mytnik_flag = False
+        if 85 < pygame.mouse.get_pos()[0] < 240 and 400 < pygame.mouse.get_pos()[1] < 545:
+            Olaf_flag = True
+        else:
+            Olaf_flag = False
 
-            if 570 < pygame.mouse.get_pos()[0] < 705 and 405 < pygame.mouse.get_pos()[1] < 545:
-                Fido_flag = True
-            else:
-                Fido_flag = False
+        if 320 < pygame.mouse.get_pos()[0] < 475 and 405 < pygame.mouse.get_pos()[1] < 545:
+            Mytnik_flag = True
+            BIRD_TYPE = Mytnik
+            pygame.mouse.set_system_cursor(pygame.SYSTEM_CURSOR_HAND)
+            show_hero_name(BIRD_TYPE)
+            if 320 < click_pos[0] < 475 and 405 < click_pos[1] < 545:
+                restore_initial_sett()
+                PIPE_SPEED = 5
+                bird_movement = 0
+                score = 0
+                game_active = True
+                pygame.mouse.set_system_cursor(pygame.SYSTEM_CURSOR_ARROW)
+        else:
+            Mytnik_flag = False
 
-            if 100 < pygame.mouse.get_pos()[0] < 220 and 595 < pygame.mouse.get_pos()[1] < 740:
-                Jasiek_flag = True
-            else:
-                Jasiek_flag = False
+        if 570 < pygame.mouse.get_pos()[0] < 705 and 405 < pygame.mouse.get_pos()[1] < 545:
+            Fido_flag = True
+        else:
+            Fido_flag = False
 
-            if 325 < pygame.mouse.get_pos()[0] < 465 and 595 < pygame.mouse.get_pos()[1] < 730:
-                Maksiu_flag = True
-            else:
-                Maksiu_flag = False
+        if 100 < pygame.mouse.get_pos()[0] < 220 and 595 < pygame.mouse.get_pos()[1] < 740:
+            Jasiek_flag = True
+        else:
+            Jasiek_flag = False
 
-            if 565 < pygame.mouse.get_pos()[0] < 705 and 600 < pygame.mouse.get_pos()[1] < 740:
-                Gacek_flag = True
-            else:
-                Gacek_flag = False
-        draw_choosing_hereos2(Max_flag, Jacek_flag, Olaf_flag, Mytnik_flag, Fido_flag, Jasiek_flag, Maksiu_flag, Gacek_flag)
+        if 325 < pygame.mouse.get_pos()[0] < 465 and 595 < pygame.mouse.get_pos()[1] < 730:
+            Maksiu_flag = True
+        else:
+            Maksiu_flag = False
 
+        if 565 < pygame.mouse.get_pos()[0] < 705 and 600 < pygame.mouse.get_pos()[1] < 740:
+            Gacek_flag = True
+        else:
+            Gacek_flag = False
 
-
+        draw_choosing_hereos2(Max_flag, Jacek_flag, Olaf_flag, Mytnik_flag, Fido_flag, Jasiek_flag, Maksiu_flag,
+                              Gacek_flag)
 
     # Floor
     floor_x_pos -= 1
