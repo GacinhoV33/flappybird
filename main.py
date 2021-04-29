@@ -18,6 +18,28 @@ screen = pygame.display.set_mode(BG_SIZE)
 clock = pygame.time.Clock()
 game_font = pygame.font.Font("04B_19.ttf", 40)
 
+#Game Variables
+gravity = 0.25
+bird_movement = 0
+space_btw_pipes = int(BG_SIZE[1]/4)
+score = 0
+high_score = 0
+click_pos = [0, 0]
+
+
+#flags
+game_active = False
+settings_flag = False
+Max_flag = False
+Jacek_flag = False
+Olaf_flag = False
+Mytnik_flag = False
+Fido_flag = False
+Jasiek_flag = False
+Maksiu_flag = False
+Gacek_flag = False
+
+
 class HeroFace:
 
     def __init__(self, downflap_path, midflap_path, upflap_path, hero_name, start_sound_list, end_sound_list, highscore=0):
@@ -50,6 +72,9 @@ class HeroFace:
     #         self.video_list[0].play()
     #         screen.blit(movie_screen, (0, 0))
 
+
+def load_everything():
+    
 
 #Floor_functions
 def draw_floor(screen, floor_x_pos):
@@ -302,6 +327,13 @@ def play_background_music():
         pygame.mixer.music.queue(el)
 
 
+def show_music_settings(flag: bool):
+    music_surface = pygame.image.load("imgs/sound_emote_on.png").convert_alpha()
+    music_surface = pygame.transform.scale(music_surface, (int(BG_SIZE[0]/20), int(BG_SIZE[0]/20)))
+    music_surface_rect = game_over_surface.get_rect()
+    screen.blit(music_surface, (int(BG_SIZE[0]/20) * 17, int(BG_SIZE[1]/35)))
+
+
 def switch_music(flag_music):
     if flag_music:
         pygame.mixer.music.pause()
@@ -401,7 +433,6 @@ def make_classic_slist():
     return classic_s
 
 
-
 def restore_initial_sett():
     pipe_list.clear()  # restoring initial conditions of game, otherwise we would met bugs
     BIRD_TYPE.play_start_sound()
@@ -423,13 +454,7 @@ def restore_initial_sett():
 
 Mytnik_choose_im_color = pygame.image.load("intro/Mytnik_color.png").convert_alpha()
 Mytnik_choose_im_color = pygame.transform.scale(Mytnik_choose_im_color, (int(BG_SIZE[0] / 5) + 10, int(BG_SIZE[0] / 5) + 10))
-#Game Variables
-gravity = 0.25
-bird_movement = 0
-space_btw_pipes = int(BG_SIZE[1]/4)
-game_active = False
-score = 0
-high_score = 0
+
 bg_surface = pygame.image.load(IMG_PATH + "background-day.png").convert()
 bg_surface = pygame.transform.scale(bg_surface, BG_SIZE)
 
@@ -461,8 +486,7 @@ flap_sound = pygame.mixer.Sound("sound/sfx_wing.wav")
 death_sound = pygame.mixer.Sound("sound/sfx_hit.wav")
 score_sound = pygame.mixer.Sound("sound/sfx_point.wav")
 beat_highscore_sound = pygame.mixer.Sound("sound/win.mp3")
-settings_flag = False
-click_pos = [0, 0]
+
 
 with open("highscore.txt", 'r') as f:
     Normal_highscore = int(f.readline())
@@ -479,8 +503,8 @@ Jacek_sound_start = make_Jacek_slist()
 Jacek_sound_end = make_Jacek_elist()
 Mytnik_sound_end = make_Maciek_elist()
 Mytnik_sound_start = make_Maciek_slist()
-Fido_sound_start = make_Fido_slist()
-Fido_end_start = make_Fido_elist()
+# Fido_sound_start = make_Fido_slist()
+# Fido_end_start = make_Fido_elist()
 
 classic_end_sound = make_classic_elist()
 classic_start_sound = make_classic_slist()
@@ -504,27 +528,19 @@ Maksymowicz = HeroFace("Jasiek/Jasiek_down.png", "Jasiek/Jasiek_mid.png", "Jasie
 Olaf = HeroFace("Jasiek/Jasiek_down.png", "Jasiek/Jasiek_mid.png", "Jasiek/Jasiek_up.png", "Pan Prezydent", Jacek_sound_start, Jacek_sound_end, Jasiek_highscore)
 
 Gacek = HeroFace("Jasiek/Jasiek_down.png", "Jasiek/Jasiek_mid.png", "Jasiek/Jasiek_up.png", "Gacinho", Jacek_sound_start, Jacek_sound_end, Jasiek_highscore)
+
+
 BIRD_TYPE = Normal_blue
-
-
-#for choosing flags
-Max_flag = False
-Jacek_flag = False
-Olaf_flag = False
-Mytnik_flag = False
-Fido_flag = False
-Jasiek_flag = False
-Maksiu_flag = False
-Gacek_flag = False
 
 
 
 #music setting
 play_background_music()
-pygame.mixer.music.set_volume(0.23)
+pygame.mixer.music.set_volume(0.33)
 music_switch = True
 
 while True:
+
 
     for event in pygame.event.get():
         click_pos = [0, 0]
@@ -595,7 +611,7 @@ while True:
 
         if event.type == pygame.MOUSEBUTTONUP:
             click_pos = pygame.mouse.get_pos()
-
+            print(click_pos)
     screen.blit(bg_surface, (0, 0))
 
     if game_active:
@@ -631,6 +647,7 @@ while True:
         # screen.blit(Mytnik.hero_look_surface, Mytnik.rect)
 
         # draw_clown_surface()
+        show_music_settings(music_switch)
         if 210 < pygame.mouse.get_pos()[0] < 340 and 210 < pygame.mouse.get_pos()[1] < 340:
             Max_flag = True
             BIRD_TYPE = Strychala
