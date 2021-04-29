@@ -13,6 +13,10 @@ BG_SIZE = (800, 1000)
 #BIRD_SONGS =
 PIPE_SPEED = 5
 
+pygame.init()
+screen = pygame.display.set_mode(BG_SIZE)
+clock = pygame.time.Clock()
+game_font = pygame.font.Font("04B_19.ttf", 40)
 
 class HeroFace:
 
@@ -110,7 +114,8 @@ def update_highscore(score, hero):
     if score > hero.highscore:
         hero.highscore = int(score)
         beat_highscore_sound.play()
-        pygame.time.wait(2000)
+        #you_won()
+        pygame.time.wait(4000)
         save_highscores()
     return hero.highscore
 
@@ -123,9 +128,12 @@ def save_highscores():
 
 
 def you_lost_display(hero: HeroFace):
-    game_font2 = pygame.font.Font("04B_19.ttf", 80)
-    surface1 = game_font2.render("You lost!!!", True, (255, 255, 255))
-    surface1_rect = surface1.get_rect(center=(int(BG_SIZE[0] / 2), int(BG_SIZE[1] / 3)))
+    game_font2 = pygame.font.Font("04B_19.ttf", 70)
+    # rand_number = random.randint(0, len(list_of_end_words)-1)
+
+    # surface1 = game_font2.render(list_of_end_words[rand_number], True, (255, 255, 255))
+    surface1 = game_font2.render("YOU LOST!", True, (255, 255, 255))
+    surface1_rect = surface1.get_rect(center=(int(BG_SIZE[0] / 2), int(BG_SIZE[1] / 4)))
     screen.blit(surface1, surface1_rect)
 
     # funny_image =
@@ -180,8 +188,7 @@ def draw_choosing_hereos2(Max_flag, Jacek_flag, Olaf_flag, Mytnik_flag, Fido_fla
         screen.blit(Olaf_choose_im, dest=[int(BG_SIZE[0]/10), int(BG_SIZE[1]/2.5)])
 
     if Mytnik_flag:
-        Mytnik_choose_im_color = pygame.image.load("intro/Mytnik_color.png").convert_alpha()
-        Mytnik_choose_im_color = pygame.transform.scale(Mytnik_choose_im_color, (int(BG_SIZE[0] / 5) + 10, int(BG_SIZE[0] / 5) + 10))
+
         Mytnik_choose_rect = Mytnik_choose_im_color.get_rect()
         screen.blit(Mytnik_choose_im_color, dest=[int(BG_SIZE[0] / 10) * 4, int(BG_SIZE[1] / 2.5)])
     else:
@@ -347,6 +354,39 @@ def make_Maciek_slist():
     return Mytnik_sound_start
 
 
+def make_Fido_slist():
+    pass
+
+
+def make_Fido_elist():
+    pass
+
+
+def make_Gacek_slist():
+    pass
+
+
+def make_Gacek_elist():
+    pass
+
+
+def make_Jasiek_slist():
+    pass
+
+
+def make_Jasiek_elist():
+    pass
+
+
+def make_Olaf_slist():
+    pass
+
+
+def make_Olaf_elist():
+    pass
+
+
+
 def make_classic_elist():
     classic_e = list()
     classic_e.append(pygame.mixer.Sound("sound/end_classics/wpizdu_wyladowal.mp3"))
@@ -359,6 +399,7 @@ def make_classic_slist():
     classic_s.append(pygame.mixer.Sound("sound/start_classics/bede_gral_w_gre.mp3"))
     classic_s.append(pygame.mixer.Sound("sound/start_classics/jedziemy_malina.mp3"))
     return classic_s
+
 
 
 def restore_initial_sett():
@@ -376,11 +417,12 @@ def restore_initial_sett():
 
 # pygame.mixer.pre_init(frequency=44100, size=16, channels=1, buffer=512)
 
-pygame.init()
-screen = pygame.display.set_mode(BG_SIZE)
-clock = pygame.time.Clock()
-game_font = pygame.font.Font("04B_19.ttf", 40)
 
+
+
+
+Mytnik_choose_im_color = pygame.image.load("intro/Mytnik_color.png").convert_alpha()
+Mytnik_choose_im_color = pygame.transform.scale(Mytnik_choose_im_color, (int(BG_SIZE[0] / 5) + 10, int(BG_SIZE[0] / 5) + 10))
 #Game Variables
 gravity = 0.25
 bird_movement = 0
@@ -437,10 +479,13 @@ Jacek_sound_start = make_Jacek_slist()
 Jacek_sound_end = make_Jacek_elist()
 Mytnik_sound_end = make_Maciek_elist()
 Mytnik_sound_start = make_Maciek_slist()
+Fido_sound_start = make_Fido_slist()
+Fido_end_start = make_Fido_elist()
 
 classic_end_sound = make_classic_elist()
 classic_start_sound = make_classic_slist()
 
+list_of_end_words = ["Fatalnie :(", "Fido by lepiej zagral", "rzal.pl"]
 
 Mytnik = HeroFace("Mytnik/Mytnik_face_down.png", "Mytnik/Mytnik_face_mid.png", "Mytnik/Mytnik_face_up.png", "Mytnik:", Mytnik_sound_start, Mytnik_sound_end, Mytnik_highscore)
 
@@ -451,6 +496,14 @@ Strychala = HeroFace("Strychala/Strychala_face_down2.png", "Strychala/Strychala_
 Jacek = HeroFace("Jacek/Jacek_down.png", "Jacek/Jacek_mid.png", "Jacek/Jacek_up.png", "Jacula", Jacek_sound_start, Jacek_sound_end, Jacek_highscore)
 
 Jasiek = HeroFace("Jasiek/Jasiek_down.png", "Jasiek/Jasiek_mid.png", "Jasiek/Jasiek_up.png", "Jasiu", Jacek_sound_start, Jacek_sound_end, Jasiek_highscore)
+
+Fido = HeroFace("Jasiek/Jasiek_down.png", "Jasiek/Jasiek_mid.png", "Jasiek/Jasiek_up.png", "Fido", Jacek_sound_start, Jacek_sound_end, Jasiek_highscore)
+
+Maksymowicz = HeroFace("Jasiek/Jasiek_down.png", "Jasiek/Jasiek_mid.png", "Jasiek/Jasiek_up.png", "Maksymowicz", Jacek_sound_start, Jacek_sound_end, Jasiek_highscore)
+
+Olaf = HeroFace("Jasiek/Jasiek_down.png", "Jasiek/Jasiek_mid.png", "Jasiek/Jasiek_up.png", "Pan Prezydent", Jacek_sound_start, Jacek_sound_end, Jasiek_highscore)
+
+Gacek = HeroFace("Jasiek/Jasiek_down.png", "Jasiek/Jasiek_mid.png", "Jasiek/Jasiek_up.png", "Gacinho", Jacek_sound_start, Jacek_sound_end, Jasiek_highscore)
 BIRD_TYPE = Normal_blue
 
 
@@ -557,11 +610,12 @@ while True:
             else:
                 BIRD_TYPE.play_end_sound()
                 pygame.time.wait(750)
+                # BIRD_TYPE.end_graphic() TODO
                 highscore_display(BIRD_TYPE)
                 you_lost_display(BIRD_TYPE)
+                pygame.display.update()
+                pygame.time.wait(4000)
 
-            pygame.display.update()
-            time.sleep(2)
             game_active = False  # checking whether you touched pipe or bottom/top and ending game
 
         screen.blit(rotated_bird, BIRD_TYPE.bird_rect)
@@ -635,6 +689,16 @@ while True:
 
         if 100 < pygame.mouse.get_pos()[0] < 220 and 595 < pygame.mouse.get_pos()[1] < 740:
             Jasiek_flag = True
+            BIRD_TYPE = Jasiek
+            pygame.mouse.set_system_cursor(pygame.SYSTEM_CURSOR_HAND)
+            show_hero_name(BIRD_TYPE)
+            if 100 < click_pos[0] < 220 and 595 < click_pos[1] < 740:
+                restore_initial_sett()
+                PIPE_SPEED = 5
+                bird_movement = 0
+                score = 0
+                game_active = True
+                pygame.mouse.set_system_cursor(pygame.SYSTEM_CURSOR_ARROW)
         else:
             Jasiek_flag = False
 
@@ -645,6 +709,16 @@ while True:
 
         if 565 < pygame.mouse.get_pos()[0] < 705 and 600 < pygame.mouse.get_pos()[1] < 740:
             Gacek_flag = True
+            BIRD_TYPE = Gacek
+            pygame.mouse.set_system_cursor(pygame.SYSTEM_CURSOR_HAND)
+            show_hero_name(BIRD_TYPE)
+            if 565 < click_pos[0] < 705 and 600 < click_pos[1] < 740:
+                restore_initial_sett()
+                PIPE_SPEED = 5
+                bird_movement = 0
+                score = 0
+                game_active = True
+                pygame.mouse.set_system_cursor(pygame.SYSTEM_CURSOR_ARROW)
         else:
             Gacek_flag = False
 
