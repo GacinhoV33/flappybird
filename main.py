@@ -39,6 +39,7 @@ Fido_flag = False
 Jasiek_flag = False
 Maksiu_flag = False
 Gacek_flag = False
+start_game_flag = True
 
 #load everything
 game_font2 = pygame.font.Font("04B_19.ttf", 70)
@@ -210,6 +211,23 @@ def highscore_display(hero: HeroFace):
     screen.blit(highscore_surface, highscore_surface_rect)
 
 
+def show_intro():
+    intro_surface = pygame.image.load("imgs/clown_together_aka_zubrowka.jpg").convert_alpha()
+    intro_surface = pygame.transform.scale(intro_surface, (int(BG_SIZE[0]), int(BG_SIZE[0])))
+    intro_rect = intro_surface.get_rect(center=(int(BG_SIZE[0])/2, int(BG_SIZE[1])/2))
+    wodka_right_surface = pygame.image.load("imgs/wodka_right.jpg").convert_alpha()
+    wodka_right_surface = pygame.transform.scale(wodka_right_surface, (int(BG_SIZE[0]), int((BG_SIZE[1] - BG_SIZE[0])/2)))
+    wodka_rect = wodka_right_surface.get_rect(center=(int(BG_SIZE[0]) / 2, int(BG_SIZE[1]-BG_SIZE[0])))
+    #TODO
+    game_name = game_font.render("CLOWNBIRD", True, (255, 255, 255))
+    game_name_rect = game_name.get_rect(center=(int(BG_SIZE[0]/2), int(BG_SIZE[1]/20)))
+    screen.blit(wodka_right_surface, wodka_rect)
+    screen.blit(game_name, game_name_rect)
+    screen.blit(intro_surface, intro_rect)
+    pygame.display.update()
+    pygame.time.wait(3000)
+    return False
+
 #Highscore functions
 def show_highscore_display(hero):
     highscore_beat_surf = game_font.render("You've beaten " + hero.hero_name + " highscore!", True,
@@ -231,11 +249,11 @@ def update_highscore(score, hero):
     return hero.highscore
 
 
-
 def save_highscores():
     with open("highscore.txt", "w") as file:
         file.write(str(Normal_blue.highscore) + "\n" + str(Mytnik.highscore) + "\n" + str(Strychala.highscore) +
-                   "\n" + str(Jacek.highscore) + "\n" + str(Jasiek.highscore) + "\n" + str(Gacek.highscore) + "\n" + str(Fido.highscore))
+                   "\n" + str(Jacek.highscore) + "\n" + str(Jasiek.highscore) + "\n" + str(Gacek.highscore) + "\n" +
+                   str(Fido.highscore) + "\n" + str(Maksymowicz.highscore) + "\n" + str(Olaf.highscore))
         file.close()
 
 
@@ -370,16 +388,17 @@ def show_music_settings(flag: bool):
         music_surface_rect = game_over_surface.get_rect()
         screen.blit(music_surface, (int(BG_SIZE[0]/20) * 17, int(BG_SIZE[1]/35)))
     else:
-        pass
+        music_off_surface = pygame.image.load("imgs/sound_off.png")
+        music_off_surface = pygame.transform.scale(music_off_surface, (int(BG_SIZE[0]/20), int(BG_SIZE[0]/20)))
+        screen.blit(music_off_surface, (int(BG_SIZE[0]/20) * 17, int(BG_SIZE[1]/35)))
 
 
 def switch_music(flag_music):
     if flag_music:
-        pygame.mixer.music.pause()
-        return not flag_music
-    else:
         pygame.mixer.music.unpause()
-        return not flag_music
+
+    else:
+        pygame.mixer.music.pause()
 
 
 def make_Jacek_elist():
@@ -459,6 +478,18 @@ def make_Olaf_elist():
     pass
 
 
+def make_Maksymowicz_slist():
+    Maksymowicz_slist = list()
+    Maksymowicz_slist.append(pygame.mixer.Sound("sound/start_sound/Maksymowicz/pijemy.wav"))
+    return Maksymowicz_slist
+
+
+def make_Maksymowicz_elist():
+    Maksymowicz_elist = list()
+    Maksymowicz_elist.append(pygame.mixer.Sound("sound/end_sound/Maksymowicz/bede_rzygol.wav"))
+    return Maksymowicz_elist
+
+
 def make_classic_elist():
     classic_e = list()
     classic_e.append(pygame.mixer.Sound("sound/end_classics/wpizdu_wyladowal.mp3"))
@@ -528,6 +559,8 @@ with open("highscore.txt", 'r') as f:
     Jasiek_highscore = int(f.readline())
     Gacek_highscore = int(f.readline())
     Fido_highscore = int(f.readline())
+    Maksymowicz_highscore = int(f.readline())
+    Olaf_highscore = int(f.readline())
     f.close()
 
 #listy z dźwiękami
@@ -540,13 +573,15 @@ Mytnik_sound_start = make_Maciek_slist()
 Jasiek_sound_start = make_Jasiek_slist()
 # Fido_sound_start = make_Fido_slist()
 # Fido_end_start = make_Fido_elist()
+Maksymowicz_sound_start = make_Maksymowicz_slist()
+Maksymowicz_sound_end = make_Maksymowicz_elist()
 
 classic_end_sound = make_classic_elist()
 classic_start_sound = make_classic_slist()
 
-list_of_end_words = ["Fatalnie :(", "Fido by lepiej zagral", "rzal.pl"]
+# list_of_end_words = ["Fatalnie :(", "Fido by lepiej zagral", "rzal.pl"]
 
-Mytnik = HeroFace("Mytnik/Mytnik_face_down.png", "Mytnik/Mytnik_face_mid.png", "Mytnik/Mytnik_face_up.png", "Mytnik:", Mytnik_sound_start, Mytnik_sound_end, Mytnik_highscore)
+Mytnik = HeroFace("Mytnik/Mytnik_down.png", "Mytnik/Mytnik_mid.png", "Mytnik/Mytnik_up.png", "Mytnik", Mytnik_sound_start, Mytnik_sound_end, Mytnik_highscore)
 
 Normal_blue = HeroFace("Normal_blue/bluebird-downflap.png", "Normal_blue/bluebird-midflap.png", "Normal_blue/bluebird-upflap.png",  "Bluebird", Mytnik_sound_start, classic_end_sound, Normal_highscore)
 
@@ -558,9 +593,9 @@ Jasiek = HeroFace("Jasiek/Jasiek_down.png", "Jasiek/Jasiek_mid.png", "Jasiek/Jas
 
 Fido = HeroFace("Fido/Fido_down.png", "Fido/Fido_mid.png", "Fido/Fido_up.png", "Fido", classic_start_sound, classic_end_sound, Fido_highscore)
 
-Maksymowicz = HeroFace("Jasiek/Jasiek_down.png", "Jasiek/Jasiek_mid.png", "Jasiek/Jasiek_up.png", "Maksymowicz", Jacek_sound_start, Jacek_sound_end, Jasiek_highscore)
+Maksymowicz = HeroFace("Maksymowicz/Maksymowicz_down.png", "Maksymowicz/Maksymowicz_mid.png", "Maksymowicz/Maksymowicz_up.png", "Maksymowicz", Maksymowicz_sound_start, Maksymowicz_sound_end, Maksymowicz_highscore)
 
-Olaf = HeroFace("Jasiek/Jasiek_down.png", "Jasiek/Jasiek_mid.png", "Jasiek/Jasiek_up.png", "Pan Prezydent", Jacek_sound_start, Jacek_sound_end, Jasiek_highscore)
+Olaf = HeroFace("Olaf/Olaf_down.png", "Olaf/Olaf_mid.png", "Olaf/Olaf_up.png", "Pan Prezydent", Jacek_sound_start, Jacek_sound_end, Olaf_highscore)
 
 Gacek = HeroFace("Gacek/Gacek_down.png", "Gacek/Gacek_mid.png", "Gacek/Gacek_up.png", "Gacinho", classic_start_sound, classic_end_sound, Gacek_highscore)
 
@@ -574,7 +609,10 @@ play_background_music()
 pygame.mixer.music.set_volume(0.33)
 music_switch = True
 
+
 while True:
+    if start_game_flag:
+        start_game_flag = show_intro()
 
     for event in pygame.event.get():
         click_pos = [0, 0]  #mouse for choosing heroes
@@ -616,7 +654,7 @@ while True:
                 #escape -> change flag
             if event.key == pygame.K_m:
                 #turn off music
-                music_switch = switch_music(music_switch)
+                switch_music(music_switch)
         #settings
         # if event.type == pygame.MOUSEBUTTONUP and not game_active:
         #     mouse_postion = pygame.mouse.get_pos()
@@ -644,7 +682,7 @@ while True:
 
         if event.type == pygame.MOUSEBUTTONUP:
             click_pos = pygame.mouse.get_pos()
-            # print(click_pos)
+            print(click_pos)
     screen.blit(bg_surface, (0, 0))
 
     if game_active:
@@ -714,6 +752,16 @@ while True:
 
         if 85 < pygame.mouse.get_pos()[0] < 240 and 400 < pygame.mouse.get_pos()[1] < 545:
             Olaf_flag = True
+            BIRD_TYPE = Olaf
+            pygame.mouse.set_system_cursor(pygame.SYSTEM_CURSOR_HAND)
+            show_hero_name(BIRD_TYPE)
+            if 85 < click_pos[0] < 240 and 400 < click_pos[1] < 545:
+                restore_initial_sett()
+                PIPE_SPEED = 5
+                bird_movement = 0
+                score = 0
+                game_active = True
+                pygame.mouse.set_system_cursor(pygame.SYSTEM_CURSOR_ARROW)
         else:
             Olaf_flag = False
 
@@ -764,6 +812,16 @@ while True:
 
         if 325 < pygame.mouse.get_pos()[0] < 465 and 595 < pygame.mouse.get_pos()[1] < 730:
             Maksiu_flag = True
+            BIRD_TYPE = Maksymowicz
+            pygame.mouse.set_system_cursor(pygame.SYSTEM_CURSOR_HAND)
+            show_hero_name(BIRD_TYPE)
+            if 325 < click_pos[0] < 465 and 595 < click_pos[1] < 730:
+                restore_initial_sett()
+                PIPE_SPEED = 5
+                bird_movement = 0
+                score = 0
+                game_active = True
+                pygame.mouse.set_system_cursor(pygame.SYSTEM_CURSOR_ARROW)
         else:
             Maksiu_flag = False
 
@@ -781,6 +839,11 @@ while True:
                 pygame.mouse.set_system_cursor(pygame.SYSTEM_CURSOR_ARROW)
         else:
             Gacek_flag = False
+
+        if 678 < click_pos[0] < 722 and 30 < click_pos[1] < 64:
+            music_switch = not music_switch
+            switch_music(music_switch)
+            pygame.time.wait(90)
 
         draw_choosing_hereos2(Max_flag, Jacek_flag, Olaf_flag, Mytnik_flag, Fido_flag, Jasiek_flag, Maksiu_flag,
                               Gacek_flag)
