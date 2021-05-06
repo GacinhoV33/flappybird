@@ -5,6 +5,7 @@ import time
 #TODO ONE FUNCTION TO SHOW SCREEN
 # MORE SOUNDS
 # MORE HEREOS
+# if you beat highscore, show winning frame!
 
 HERO_PATH = "./heroes/"
 IMG_PATH = "./imgs/"
@@ -39,6 +40,84 @@ Jasiek_flag = False
 Maksiu_flag = False
 Gacek_flag = False
 
+#load everything
+game_font2 = pygame.font.Font("04B_19.ttf", 70)
+
+#you lost display
+surface1 = game_font2.render("YOU LOST!", True, (255, 255, 255))
+surface1_rect = surface1.get_rect(center=(int(BG_SIZE[0] / 2), int(BG_SIZE[1] / 4)))
+
+
+#choose hero 2
+game_font3 = pygame.font.Font("04B_19.ttf", 50)
+choose_hero_surface = game_font3.render("Choose your hero: ", True, (255, 255, 255))
+choose_hero_surface_rect = choose_hero_surface.get_rect(center=(int(BG_SIZE[0] / 2), int(BG_SIZE[1] / 20)))
+
+Olaf_choose_im_color = pygame.image.load("intro/Olaf_color.png").convert_alpha()
+Olaf_choose_im_color = pygame.transform.scale(Olaf_choose_im_color, (int(BG_SIZE[0]/5)+10, int(BG_SIZE[0]/5)+10))
+Olaf_choose_color_rect = Olaf_choose_im_color.get_rect()
+
+Olaf_choose_im = pygame.image.load("intro/Olaf.png").convert_alpha()
+Olaf_choose_im = pygame.transform.scale(Olaf_choose_im, (int(BG_SIZE[0]/5), int(BG_SIZE[0]/5)))
+Olaf_choose_rect = Olaf_choose_im.get_rect()
+
+
+Mytnik_choose_im_color = pygame.image.load("intro/Mytnik_color.png").convert_alpha()
+Mytnik_choose_im_color = pygame.transform.scale(Mytnik_choose_im_color, (int(BG_SIZE[0] / 5) + 10, int(BG_SIZE[0] / 5) + 10))
+Mytnik_choose_rect = Mytnik_choose_im_color.get_rect()
+
+Mytnik_choose_im = pygame.image.load("intro/Mytnik.png").convert_alpha()
+Mytnik_choose_im = pygame.transform.scale(Mytnik_choose_im, (int(BG_SIZE[0]/5), int(BG_SIZE[0]/5)))
+# Mytnik_choose_rect = Mytnik_choose_im.get_rect()
+
+Fido_choose_im_color = pygame.image.load("intro/Fido_color.png").convert_alpha()
+Fido_choose_im_color = pygame.transform.scale(Fido_choose_im_color, (int(BG_SIZE[0] / 5) + 10, int(BG_SIZE[0] / 5) + 10))
+Fido_choose_color_rect = Fido_choose_im_color.get_rect()
+
+Fido_choose_im = pygame.image.load("intro/Fido.png").convert_alpha()
+Fido_choose_im = pygame.transform.scale(Fido_choose_im, (int(BG_SIZE[0] / 5), int(BG_SIZE[0] / 5)))
+Fido_choose_rect = Fido_choose_im.get_rect()
+
+Jasiek_choose_im_color = pygame.image.load("intro/Jasiek_color.png").convert_alpha()
+Jasiek_choose_im_color = pygame.transform.scale(Jasiek_choose_im_color, (int(BG_SIZE[0] / 5) + 10, int(BG_SIZE[0] / 5)+10))
+Jasiek_choose_color_rect = Jasiek_choose_im_color.get_rect()
+
+Jasiek_choose_im = pygame.image.load("intro/Jasiek.png").convert_alpha()
+Jasiek_choose_im = pygame.transform.scale(Jasiek_choose_im, (int(BG_SIZE[0] / 5), int(BG_SIZE[0] / 5)))
+Jasiek_choose_rect = Jasiek_choose_im.get_rect()
+
+Maksiu_choose_im_color = pygame.image.load("intro/Maksymowicz_color.png").convert_alpha()
+Maksiu_choose_im_color = pygame.transform.scale(Maksiu_choose_im_color, (int(BG_SIZE[0] / 5) + 10, int(BG_SIZE[0] / 5)+10))
+Maksiu_choose_rect_color = Maksiu_choose_im_color.get_rect()
+
+Maksiu_choose_im = pygame.image.load("intro/Maksymowicz.png").convert_alpha()
+Maksiu_choose_im = pygame.transform.scale(Maksiu_choose_im, (int(BG_SIZE[0] / 5), int(BG_SIZE[0] / 5)))
+Maksiu_choose_rect = Maksiu_choose_im.get_rect()
+
+Gacek_choose_im_color = pygame.image.load("intro/Gacek_color.png").convert_alpha()
+Gacek_choose_im_color = pygame.transform.scale(Gacek_choose_im_color, (int(BG_SIZE[0] / 5), int(BG_SIZE[0] / 5)))
+Gacek_choose_rect_color = Gacek_choose_im_color.get_rect()
+
+Gacek_choose_im = pygame.image.load("intro/Gacek.png").convert_alpha()
+Gacek_choose_im = pygame.transform.scale(Gacek_choose_im, (int(BG_SIZE[0] / 5), int(BG_SIZE[0] / 5)))
+Gacek_choose_rect = Gacek_choose_im.get_rect()
+
+Max_choose_im_color = pygame.image.load("intro/Max_color.png").convert_alpha()
+Max_choose_im_color = pygame.transform.scale(Max_choose_im_color, (int(BG_SIZE[0] / 5), int(BG_SIZE[0] / 5)))
+Max_choose_color_rect = Max_choose_im_color.get_rect()
+
+Max_choose_im = pygame.image.load("intro/Max.png").convert_alpha()
+Max_choose_im = pygame.transform.scale(Max_choose_im, (int(BG_SIZE[0] / 5), int(BG_SIZE[0] / 5)))
+Max_choose_rect = Max_choose_im.get_rect()
+
+Jacek_choose_im_color = pygame.image.load("intro/Jacek_color.png").convert_alpha()
+Jacek_choose_im_color = pygame.transform.scale(Jacek_choose_im_color, (int(BG_SIZE[0] / 5), int(BG_SIZE[0] / 5)))
+Jacek_choose_color_rect = Jacek_choose_im_color.get_rect()
+
+Jacek_choose_im = pygame.image.load("intro/Jacek.png").convert_alpha()
+Jacek_choose_im = pygame.transform.scale(Jacek_choose_im, (int(BG_SIZE[0] / 5), int(BG_SIZE[0] / 5)))
+Jacek_choose_rect = Jacek_choose_im.get_rect()
+
 
 class HeroFace:
 
@@ -72,9 +151,6 @@ class HeroFace:
     #         self.video_list[0].play()
     #         screen.blit(movie_screen, (0, 0))
 
-
-def load_everything():
-    
 
 #Floor_functions
 def draw_floor(screen, floor_x_pos):
@@ -123,7 +199,7 @@ def rotate_bird(bird):
 
 def score_display(game_active, hero: HeroFace):
     score_surface = game_font.render("Score: " + str(int(score)), True, (255, 255, 255))
-    score_rect = score_surface.get_rect(center=(int(BG_SIZE[0]/2), 60))
+    score_rect = score_surface.get_rect(center=(int(BG_SIZE[0] / 2), 60))
     screen.blit(score_surface, score_rect)
     # if not game_active and not settings_flag:
 
@@ -135,30 +211,37 @@ def highscore_display(hero: HeroFace):
 
 
 #Highscore functions
+def show_highscore_display(hero):
+    highscore_beat_surf = game_font.render("You've beaten " + hero.hero_name + " highscore!", True,
+                                         (255, 255, 255))
+    highscore_beat_rect = highscore_beat_surf.get_rect(center=(int(BG_SIZE[0] / 2), int(BG_SIZE[1]/5)))
+    screen.blit(highscore_beat_surf, highscore_beat_rect)
+    pygame.display.update()
+    #TODO funny image with hero
+
+
 def update_highscore(score, hero):
     if score > hero.highscore:
         hero.highscore = int(score)
         beat_highscore_sound.play()
+        show_highscore_display(hero)
         #you_won()
         pygame.time.wait(4000)
         save_highscores()
     return hero.highscore
 
 
+
 def save_highscores():
     with open("highscore.txt", "w") as file:
         file.write(str(Normal_blue.highscore) + "\n" + str(Mytnik.highscore) + "\n" + str(Strychala.highscore) +
-                   "\n" + str(Jacek.highscore) + "\n" + str(Jasiek_highscore))
+                   "\n" + str(Jacek.highscore) + "\n" + str(Jasiek.highscore) + "\n" + str(Gacek.highscore) + "\n" + str(Fido.highscore))
         file.close()
 
 
 def you_lost_display(hero: HeroFace):
-    game_font2 = pygame.font.Font("04B_19.ttf", 70)
     # rand_number = random.randint(0, len(list_of_end_words)-1)
-
     # surface1 = game_font2.render(list_of_end_words[rand_number], True, (255, 255, 255))
-    surface1 = game_font2.render("YOU LOST!", True, (255, 255, 255))
-    surface1_rect = surface1.get_rect(center=(int(BG_SIZE[0] / 2), int(BG_SIZE[1] / 4)))
     screen.blit(surface1, surface1_rect)
 
     # funny_image =
@@ -196,96 +279,49 @@ def draw_choosing_hereos():
 
 
 def draw_choosing_hereos2(Max_flag, Jacek_flag, Olaf_flag, Mytnik_flag, Fido_flag, Jasiek_flag, Maksiu_flag, Gacek_flag):
-    game_font3 = pygame.font.Font("04B_19.ttf", 50)
-    highscore_surface = game_font3.render("Choose your hero: ", True, (255, 255, 255))
-    highscore_surface_rect = highscore_surface.get_rect(center=(int(BG_SIZE[0]/2), int(BG_SIZE[1]/20)))
-    screen.blit(highscore_surface, highscore_surface_rect)
+    screen.blit(choose_hero_surface, choose_hero_surface_rect)
 
     if Olaf_flag:
-        Olaf_choose_im_color = pygame.image.load("intro/Olaf_color.png").convert_alpha()
-        Olaf_choose_im_color = pygame.transform.scale(Olaf_choose_im_color, (int(BG_SIZE[0]/5)+10, int(BG_SIZE[0]/5)+10))
-        Olaf_choose_color_rect = Olaf_choose_im_color.get_rect()
         screen.blit(Olaf_choose_im_color, dest=[int(BG_SIZE[0] / 10), int(BG_SIZE[1] / 2.5)])
     else:
-        Olaf_choose_im = pygame.image.load("intro/Olaf.png").convert_alpha()
-        Olaf_choose_im = pygame.transform.scale(Olaf_choose_im, (int(BG_SIZE[0]/5), int(BG_SIZE[0]/5)))
-        Olaf_choose_rect = Olaf_choose_im.get_rect()
         screen.blit(Olaf_choose_im, dest=[int(BG_SIZE[0]/10), int(BG_SIZE[1]/2.5)])
 
     if Mytnik_flag:
-
-        Mytnik_choose_rect = Mytnik_choose_im_color.get_rect()
         screen.blit(Mytnik_choose_im_color, dest=[int(BG_SIZE[0] / 10) * 4, int(BG_SIZE[1] / 2.5)])
     else:
-        Mytnik_choose_im = pygame.image.load("intro/Mytnik.png").convert_alpha()
-        Mytnik_choose_im = pygame.transform.scale(Mytnik_choose_im, (int(BG_SIZE[0]/5), int(BG_SIZE[0]/5)))
-        Mytnik_choose_rect = Mytnik_choose_im.get_rect()
         screen.blit(Mytnik_choose_im, dest=[int(BG_SIZE[0]/10) * 4, int(BG_SIZE[1]/2.5)])
 
     if Fido_flag:
-        Fido_choose_im_color = pygame.image.load("intro/Fido_color.png").convert_alpha()
-        Fido_choose_im_color = pygame.transform.scale(Fido_choose_im_color, (int(BG_SIZE[0] / 5) + 10, int(BG_SIZE[0] / 5)+10))
-        Fido_choose_color_rect = Fido_choose_im_color.get_rect()
         screen.blit(Fido_choose_im_color, dest=[int(BG_SIZE[0] / 10) * 7, int(BG_SIZE[1] / 2.5)])
     else:
-        Fido_choose_im = pygame.image.load("intro/Fido.png").convert_alpha()
-        Fido_choose_im = pygame.transform.scale(Fido_choose_im, (int(BG_SIZE[0] / 5), int(BG_SIZE[0] / 5)))
-        Fido_choose_rect = Fido_choose_im.get_rect()
         screen.blit(Fido_choose_im, dest=[int(BG_SIZE[0] / 10) * 7, int(BG_SIZE[1] / 2.5)])
 
     if Jasiek_flag:
-        Jasiek_choose_im_color = pygame.image.load("intro/Jasiek_color.png").convert_alpha()
-        Jasiek_choose_im_color = pygame.transform.scale(Jasiek_choose_im_color, (int(BG_SIZE[0] / 5) + 10, int(BG_SIZE[0] / 5)+10))
-        Jasiek_choose_color_rect = Jasiek_choose_im_color.get_rect()
+
         screen.blit(Jasiek_choose_im_color, dest=[int(BG_SIZE[0] / 10), int(BG_SIZE[1] / 1.7)])
     else:
-        Jasiek_choose_im = pygame.image.load("intro/Jasiek.png").convert_alpha()
-        Jasiek_choose_im = pygame.transform.scale(Jasiek_choose_im, (int(BG_SIZE[0] / 5), int(BG_SIZE[0] / 5)))
-        Jasiek_choose_rect = Jasiek_choose_im.get_rect()
+
         screen.blit(Jasiek_choose_im, dest=[int(BG_SIZE[0] / 10), int(BG_SIZE[1] / 1.7)])
 
     if Maksiu_flag:
-        Maksiu_choose_im_color = pygame.image.load("intro/Maksymowicz_color.png").convert_alpha()
-        Maksiu_choose_im_color = pygame.transform.scale(Maksiu_choose_im_color, (int(BG_SIZE[0] / 5) + 10, int(BG_SIZE[0] / 5)+10))
-        Maksiu_choose_rect_color = Maksiu_choose_im_color.get_rect()
         screen.blit(Maksiu_choose_im_color, dest=[int(BG_SIZE[0] / 10) * 4, int(BG_SIZE[1] / 1.7)])
     else:
-        Maksiu_choose_im = pygame.image.load("intro/Maksymowicz.png").convert_alpha()
-        Maksiu_choose_im = pygame.transform.scale(Maksiu_choose_im, (int(BG_SIZE[0] / 5), int(BG_SIZE[0] / 5)))
-        Maksiu_choose_rect = Maksiu_choose_im.get_rect()
         screen.blit(Maksiu_choose_im, dest=[int(BG_SIZE[0] / 10) * 4, int(BG_SIZE[1] / 1.7)])
 
     if Gacek_flag:
-        Gacek_choose_im_color = pygame.image.load("intro/Gacek_color.png").convert_alpha()
-        Gacek_choose_im_color = pygame.transform.scale(Gacek_choose_im_color, (int(BG_SIZE[0] / 5), int(BG_SIZE[0] / 5)))
-        Gacek_choose_rect_color = Gacek_choose_im_color.get_rect()
         screen.blit(Gacek_choose_im_color, dest=[int(BG_SIZE[0] / 10) * 7, int(BG_SIZE[1] / 1.7)])
     else:
-        Gacek_choose_im = pygame.image.load("intro/Gacek.png").convert_alpha()
-        Gacek_choose_im = pygame.transform.scale(Gacek_choose_im, (int(BG_SIZE[0] / 5), int(BG_SIZE[0] / 5)))
-        Gacek_choose_rect = Gacek_choose_im.get_rect()
         screen.blit(Gacek_choose_im, dest=[int(BG_SIZE[0] / 10) * 7, int(BG_SIZE[1] / 1.7)])
 
     if Max_flag:
-        Max_choose_im_color = pygame.image.load("intro/Max_color.png").convert_alpha()
-        Max_choose_im_color = pygame.transform.scale(Max_choose_im_color, (int(BG_SIZE[0] / 5), int(BG_SIZE[0] / 5)))
-        Max_choose_color_rect = Max_choose_im_color.get_rect()
         screen.blit(Max_choose_im_color, dest=[int(BG_SIZE[0] / 10) * 2.5, int(BG_SIZE[1] / 4.8)])
     else:
-        Max_choose_im = pygame.image.load("intro/Max.png").convert_alpha()
-        Max_choose_im = pygame.transform.scale(Max_choose_im, (int(BG_SIZE[0] / 5), int(BG_SIZE[0] / 5)))
-        Max_choose_rect = Max_choose_im.get_rect()
         screen.blit(Max_choose_im, dest=[int(BG_SIZE[0] / 10) * 2.5, int(BG_SIZE[1] / 4.8)])
 
     if Jacek_flag:
-        Jacek_choose_im_color = pygame.image.load("intro/Jacek_color.png").convert_alpha()
-        Jacek_choose_im_color = pygame.transform.scale(Jacek_choose_im_color, (int(BG_SIZE[0] / 5), int(BG_SIZE[0] / 5)))
-        Jacek_choose_color_rect = Jacek_choose_im_color.get_rect()
+
         screen.blit(Jacek_choose_im_color, dest=[int(BG_SIZE[0] / 10) * 5.5, int(BG_SIZE[1] / 4.8)])
     else:
-        Jacek_choose_im = pygame.image.load("intro/Jacek.png").convert_alpha()
-        Jacek_choose_im = pygame.transform.scale(Jacek_choose_im, (int(BG_SIZE[0] / 5), int(BG_SIZE[0] / 5)))
-        Jacek_choose_rect = Jacek_choose_im.get_rect()
         screen.blit(Jacek_choose_im, dest=[int(BG_SIZE[0] / 10) * 5.5, int(BG_SIZE[1] / 4.8)])
 
 
@@ -328,10 +364,13 @@ def play_background_music():
 
 
 def show_music_settings(flag: bool):
-    music_surface = pygame.image.load("imgs/sound_emote_on.png").convert_alpha()
-    music_surface = pygame.transform.scale(music_surface, (int(BG_SIZE[0]/20), int(BG_SIZE[0]/20)))
-    music_surface_rect = game_over_surface.get_rect()
-    screen.blit(music_surface, (int(BG_SIZE[0]/20) * 17, int(BG_SIZE[1]/35)))
+    if flag:
+        music_surface = pygame.image.load("imgs/sound_emote_on.png").convert_alpha()
+        music_surface = pygame.transform.scale(music_surface, (int(BG_SIZE[0]/20), int(BG_SIZE[0]/20)))
+        music_surface_rect = game_over_surface.get_rect()
+        screen.blit(music_surface, (int(BG_SIZE[0]/20) * 17, int(BG_SIZE[1]/35)))
+    else:
+        pass
 
 
 def switch_music(flag_music):
@@ -403,8 +442,10 @@ def make_Gacek_elist():
 
 
 def make_Jasiek_slist():
-    pass
-
+    Jan_start_list = list()
+    Jan_start_list.append(pygame.mixer.Sound("sound/start_sound/Jasiek/amor1.mp3"))
+    Jan_start_list.append(pygame.mixer.Sound("sound/start_sound/Jasiek/amor2.mp3"))
+    return Jan_start_list
 
 def make_Jasiek_elist():
     pass
@@ -416,7 +457,6 @@ def make_Olaf_slist():
 
 def make_Olaf_elist():
     pass
-
 
 
 def make_classic_elist():
@@ -440,20 +480,12 @@ def restore_initial_sett():
 
 
 # def make_classic_evideo(): #TODO pygame movie module was removed - probably it's impossible to put video into game
-#     classic_evideo = list()
-#     classic_evideo.append(pygame..Movie("video/classic_end/no_co_narobiliscie.mp4"))
-#     return classic_evideo
-#-------------------------------------------------------------------------#
-#-----------------------------------------------------------------------#
 
 # pygame.mixer.pre_init(frequency=44100, size=16, channels=1, buffer=512)
 
 
 
 
-
-Mytnik_choose_im_color = pygame.image.load("intro/Mytnik_color.png").convert_alpha()
-Mytnik_choose_im_color = pygame.transform.scale(Mytnik_choose_im_color, (int(BG_SIZE[0] / 5) + 10, int(BG_SIZE[0] / 5) + 10))
 
 bg_surface = pygame.image.load(IMG_PATH + "background-day.png").convert()
 bg_surface = pygame.transform.scale(bg_surface, BG_SIZE)
@@ -494,6 +526,8 @@ with open("highscore.txt", 'r') as f:
     Strychala_highscore = int(f.readline())
     Jacek_highscore = int(f.readline())
     Jasiek_highscore = int(f.readline())
+    Gacek_highscore = int(f.readline())
+    Fido_highscore = int(f.readline())
     f.close()
 
 #listy z dźwiękami
@@ -503,6 +537,7 @@ Jacek_sound_start = make_Jacek_slist()
 Jacek_sound_end = make_Jacek_elist()
 Mytnik_sound_end = make_Maciek_elist()
 Mytnik_sound_start = make_Maciek_slist()
+Jasiek_sound_start = make_Jasiek_slist()
 # Fido_sound_start = make_Fido_slist()
 # Fido_end_start = make_Fido_elist()
 
@@ -519,15 +554,15 @@ Strychala = HeroFace("Strychala/Strychala_face_down2.png", "Strychala/Strychala_
 
 Jacek = HeroFace("Jacek/Jacek_down.png", "Jacek/Jacek_mid.png", "Jacek/Jacek_up.png", "Jacula", Jacek_sound_start, Jacek_sound_end, Jacek_highscore)
 
-Jasiek = HeroFace("Jasiek/Jasiek_down.png", "Jasiek/Jasiek_mid.png", "Jasiek/Jasiek_up.png", "Jasiu", Jacek_sound_start, Jacek_sound_end, Jasiek_highscore)
+Jasiek = HeroFace("Jasiek/Jasiek_down.png", "Jasiek/Jasiek_mid.png", "Jasiek/Jasiek_up.png", "Jasiu", Jasiek_sound_start, Jacek_sound_end, Jasiek_highscore)
 
-Fido = HeroFace("Jasiek/Jasiek_down.png", "Jasiek/Jasiek_mid.png", "Jasiek/Jasiek_up.png", "Fido", Jacek_sound_start, Jacek_sound_end, Jasiek_highscore)
+Fido = HeroFace("Fido/Fido_down.png", "Fido/Fido_mid.png", "Fido/Fido_up.png", "Fido", classic_start_sound, classic_end_sound, Fido_highscore)
 
 Maksymowicz = HeroFace("Jasiek/Jasiek_down.png", "Jasiek/Jasiek_mid.png", "Jasiek/Jasiek_up.png", "Maksymowicz", Jacek_sound_start, Jacek_sound_end, Jasiek_highscore)
 
 Olaf = HeroFace("Jasiek/Jasiek_down.png", "Jasiek/Jasiek_mid.png", "Jasiek/Jasiek_up.png", "Pan Prezydent", Jacek_sound_start, Jacek_sound_end, Jasiek_highscore)
 
-Gacek = HeroFace("Jasiek/Jasiek_down.png", "Jasiek/Jasiek_mid.png", "Jasiek/Jasiek_up.png", "Gacinho", Jacek_sound_start, Jacek_sound_end, Jasiek_highscore)
+Gacek = HeroFace("Gacek/Gacek_down.png", "Gacek/Gacek_mid.png", "Gacek/Gacek_up.png", "Gacinho", classic_start_sound, classic_end_sound, Gacek_highscore)
 
 
 BIRD_TYPE = Normal_blue
@@ -541,10 +576,8 @@ music_switch = True
 
 while True:
 
-
     for event in pygame.event.get():
-        click_pos = [0, 0]
-        #mouse for choosing heroes
+        click_pos = [0, 0]  #mouse for choosing heroes
 
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -611,7 +644,7 @@ while True:
 
         if event.type == pygame.MOUSEBUTTONUP:
             click_pos = pygame.mouse.get_pos()
-            print(click_pos)
+            # print(click_pos)
     screen.blit(bg_surface, (0, 0))
 
     if game_active:
@@ -701,6 +734,16 @@ while True:
 
         if 570 < pygame.mouse.get_pos()[0] < 705 and 405 < pygame.mouse.get_pos()[1] < 545:
             Fido_flag = True
+            BIRD_TYPE = Fido
+            pygame.mouse.set_system_cursor(pygame.SYSTEM_CURSOR_HAND)
+            show_hero_name(BIRD_TYPE)
+            if 570 < click_pos[0] < 705 and 405 < click_pos[1] < 545:
+                restore_initial_sett()
+                PIPE_SPEED = 5
+                bird_movement = 0
+                score = 0
+                game_active = True
+                pygame.mouse.set_system_cursor(pygame.SYSTEM_CURSOR_ARROW)
         else:
             Fido_flag = False
 
