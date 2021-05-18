@@ -719,12 +719,12 @@ while True:
 
         # draw_clown_surface()
         show_music_settings(music_switch)
-        if 210 < pygame.mouse.get_pos()[0] < 340 and 210 < pygame.mouse.get_pos()[1] < 340:
+        if BG_SIZE[0]/80 * 21 < pygame.mouse.get_pos()[0] < BG_SIZE[0]/80 * 34 and BG_SIZE[1]/100 * 21 < pygame.mouse.get_pos()[1] < BG_SIZE[1]/100 * 34:
             Max_flag = True
             BIRD_TYPE = Strychala
             pygame.mouse.set_system_cursor(pygame.SYSTEM_CURSOR_HAND)
             show_hero_name(BIRD_TYPE)
-            if 210 < click_pos[0] < 340 and 210 < click_pos[1] < 340:
+            if BG_SIZE[0]/80 * 21 < click_pos[0] < BG_SIZE[0]/80 * 34 and  BG_SIZE[1]/100 * 21 < click_pos[1] < BG_SIZE[1]/100 * 34:
                 restore_initial_sett()
                 PIPE_SPEED = 5
                 bird_movement = 0
@@ -735,12 +735,12 @@ while True:
         else:
             Max_flag = False
 
-        if 445 < pygame.mouse.get_pos()[0] < 600 and 225 < pygame.mouse.get_pos()[1] < 355:
+        if BG_SIZE[0]/80 * 44.5 < pygame.mouse.get_pos()[0] < BG_SIZE[0]/80 * 60 and BG_SIZE[1]/100 * 22.5 < pygame.mouse.get_pos()[1] < BG_SIZE[1]/100 * 35.5:
             Jacek_flag = True
             BIRD_TYPE = Jacek
             pygame.mouse.set_system_cursor(pygame.SYSTEM_CURSOR_HAND)
             show_hero_name(BIRD_TYPE)
-            if 445 < click_pos[0] < 600 and 225 < click_pos[1] < 355:
+            if BG_SIZE[0]/80 * 44.5 < click_pos[0] < BG_SIZE[0]/80 * 60 and BG_SIZE[1]/100 * 22.5 < click_pos[1] < BG_SIZE[1]/100 * 35.5:
                 restore_initial_sett()
                 PIPE_SPEED = 5
                 bird_movement = 0
@@ -750,12 +750,12 @@ while True:
         else:
             Jacek_flag = False
 
-        if 85 < pygame.mouse.get_pos()[0] < 240 and 400 < pygame.mouse.get_pos()[1] < 545:
+        if BG_SIZE[0]/80 * 8.5 < pygame.mouse.get_pos()[0] < BG_SIZE[0]/80 * 24 and BG_SIZE[1]/100 * 40 < pygame.mouse.get_pos()[1] < BG_SIZE[1]/100 * 54.5:
             Olaf_flag = True
             BIRD_TYPE = Olaf
             pygame.mouse.set_system_cursor(pygame.SYSTEM_CURSOR_HAND)
             show_hero_name(BIRD_TYPE)
-            if 85 < click_pos[0] < 240 and 400 < click_pos[1] < 545:
+            if BG_SIZE[0]/80 * 8.5 < click_pos[0] < BG_SIZE[0]/80 * 24 and BG_SIZE[1]/100 * 40 < click_pos[1] < BG_SIZE[1]/100 * 54.5:
                 restore_initial_sett()
                 PIPE_SPEED = 5
                 bird_movement = 0
@@ -765,12 +765,12 @@ while True:
         else:
             Olaf_flag = False
 
-        if 320 < pygame.mouse.get_pos()[0] < 475 and 405 < pygame.mouse.get_pos()[1] < 545:
+        if BG_SIZE[0]/80 * 32 < pygame.mouse.get_pos()[0] < BG_SIZE[0]/80 * 47.5 and BG_SIZE[1]/100 * 40.5 < pygame.mouse.get_pos()[1] < BG_SIZE[1]/100 * 54.5:
             Mytnik_flag = True
             BIRD_TYPE = Mytnik
             pygame.mouse.set_system_cursor(pygame.SYSTEM_CURSOR_HAND)
             show_hero_name(BIRD_TYPE)
-            if 320 < click_pos[0] < 475 and 405 < click_pos[1] < 545:
+            if BG_SIZE[0]/80 * 32 < click_pos[0] < BG_SIZE[0]/80 * 47.5 and BG_SIZE[1]/100 * 40.5 < click_pos[1] < BG_SIZE[1]/100 * 54.5:
                 restore_initial_sett()
                 PIPE_SPEED = 5
                 bird_movement = 0
@@ -780,12 +780,12 @@ while True:
         else:
             Mytnik_flag = False
 
-        if 570 < pygame.mouse.get_pos()[0] < 705 and 405 < pygame.mouse.get_pos()[1] < 545:
+        if BG_SIZE[0]/80 * 57 < pygame.mouse.get_pos()[0] < BG_SIZE[0]/80 * 70.5 and BG_SIZE[1]/100 * 40.5 < pygame.mouse.get_pos()[1] < BG_SIZE[1]/100 * 54.5:
             Fido_flag = True
             BIRD_TYPE = Fido
             pygame.mouse.set_system_cursor(pygame.SYSTEM_CURSOR_HAND)
             show_hero_name(BIRD_TYPE)
-            if 570 < click_pos[0] < 705 and 405 < click_pos[1] < 545:
+            if BG_SIZE[0]/80 * 57 < click_pos[0] < BG_SIZE[0]/80 * 70.5 and 405 < click_pos[1] < BG_SIZE[1]/100 * 54.5:
                 restore_initial_sett()
                 PIPE_SPEED = 5
                 bird_movement = 0
@@ -795,12 +795,12 @@ while True:
         else:
             Fido_flag = False
 
-        if 100 < pygame.mouse.get_pos()[0] < 220 and 595 < pygame.mouse.get_pos()[1] < 740:
+        if BG_SIZE[0]/80 * 10 < pygame.mouse.get_pos()[0] < BG_SIZE[0]/80 * 22 and BG_SIZE[1]/100 * 59.5 < pygame.mouse.get_pos()[1] < BG_SIZE[1]/100 * 74:
             Jasiek_flag = True
             BIRD_TYPE = Jasiek
             pygame.mouse.set_system_cursor(pygame.SYSTEM_CURSOR_HAND)
             show_hero_name(BIRD_TYPE)
-            if 100 < click_pos[0] < 220 and 595 < click_pos[1] < 740:
+            if BG_SIZE[0]/80 * 10 < click_pos[0] < BG_SIZE[0]/80 * 22 and BG_SIZE[1]/100 * 59.5 < click_pos[1] < BG_SIZE[1]/100 * 74:
                 restore_initial_sett()
                 PIPE_SPEED = 5
                 bird_movement = 0
@@ -810,12 +810,12 @@ while True:
         else:
             Jasiek_flag = False
 
-        if 325 < pygame.mouse.get_pos()[0] < 465 and 595 < pygame.mouse.get_pos()[1] < 730:
+        if BG_SIZE[0]/80 * 32.5 < pygame.mouse.get_pos()[0] < BG_SIZE[0]/80 * 46.5 and BG_SIZE[1]/100 * 59.5 < pygame.mouse.get_pos()[1] < BG_SIZE[1]/100 * 73:
             Maksiu_flag = True
             BIRD_TYPE = Maksymowicz
             pygame.mouse.set_system_cursor(pygame.SYSTEM_CURSOR_HAND)
             show_hero_name(BIRD_TYPE)
-            if 325 < click_pos[0] < 465 and 595 < click_pos[1] < 730:
+            if BG_SIZE[0]/80 * 32.5 < click_pos[0] < BG_SIZE[0]/80 * 46.5 and BG_SIZE[1]/100 * 59.5 < click_pos[1] < BG_SIZE[1]/100 * 73:
                 restore_initial_sett()
                 PIPE_SPEED = 5
                 bird_movement = 0
@@ -825,12 +825,12 @@ while True:
         else:
             Maksiu_flag = False
 
-        if 565 < pygame.mouse.get_pos()[0] < 705 and 600 < pygame.mouse.get_pos()[1] < 740:
+        if BG_SIZE[0]/80 * 56.5 < pygame.mouse.get_pos()[0] < BG_SIZE[0]/80 * 70.5 and BG_SIZE[1]/100 * 60 < pygame.mouse.get_pos()[1] < BG_SIZE[1]/100 * 74:
             Gacek_flag = True
             BIRD_TYPE = Gacek
             pygame.mouse.set_system_cursor(pygame.SYSTEM_CURSOR_HAND)
             show_hero_name(BIRD_TYPE)
-            if 565 < click_pos[0] < 705 and 600 < click_pos[1] < 740:
+            if BG_SIZE[0]/80 * 56.5 < click_pos[0] < BG_SIZE[0]/80 * 70.5 and BG_SIZE[1]/100 * 60 < click_pos[1] < BG_SIZE[1]/100 * 74:
                 restore_initial_sett()
                 PIPE_SPEED = 5
                 bird_movement = 0
@@ -840,7 +840,7 @@ while True:
         else:
             Gacek_flag = False
 
-        if 678 < click_pos[0] < 722 and 30 < click_pos[1] < 64:
+        if BG_SIZE[0]/80 * 67.5 < click_pos[0] < BG_SIZE[0]/80 * 72.5 and BG_SIZE[1]/100 * 30 < click_pos[1] < BG_SIZE[1]/100 * 64:
             music_switch = not music_switch
             switch_music(music_switch)
             pygame.time.wait(90)
