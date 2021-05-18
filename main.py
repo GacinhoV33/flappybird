@@ -368,9 +368,9 @@ def show_hero_name(birdtype: HeroFace):
 #Functions with sounds_lists
 def make_background_music_list():
     background_music_list = list()
-    background_music_list.append("music_in_back/Jaramy_Jaramy.mp3")
-    background_music_list.append("music_in_back/Czuje_banie.mp3")
-    background_music_list.append("music_in_back/Young_Kit$hxOlaf_PDW.mp3")
+    background_music_list.append("music_in_back/Jaramy_Jaramy.wav")
+    background_music_list.append("music_in_back/Czuje_banie.wav")
+    background_music_list.append("music_in_back/Young_Kit$hxOlaf_PDW.wav")
     return background_music_list
 
 
@@ -462,8 +462,8 @@ def make_Gacek_elist():
 
 def make_Jasiek_slist():
     Jan_start_list = list()
-    Jan_start_list.append(pygame.mixer.Sound("sound/start_sound/Jasiek/amor1.mp3"))
-    Jan_start_list.append(pygame.mixer.Sound("sound/start_sound/Jasiek/amor2.mp3"))
+    Jan_start_list.append(pygame.mixer.Sound("sound/start_sound/Jasiek/amor1.wav"))
+    Jan_start_list.append(pygame.mixer.Sound("sound/start_sound/Jasiek/amor2.wav"))
     return Jan_start_list
 
 def make_Jasiek_elist():
@@ -492,15 +492,15 @@ def make_Maksymowicz_elist():
 
 def make_classic_elist():
     classic_e = list()
-    classic_e.append(pygame.mixer.Sound("sound/end_classics/wpizdu_wyladowal.mp3"))
-    classic_e.append(pygame.mixer.Sound("sound/end_classics/no_co_narobiliscie.mp3"))
+    classic_e.append(pygame.mixer.Sound("sound/end_classics/wpizdu_wyladowal.wav"))
+    classic_e.append(pygame.mixer.Sound("sound/end_classics/no_co_narobiliscie.wav"))
     return classic_e
 
 
 def make_classic_slist():
     classic_s = list()
-    classic_s.append(pygame.mixer.Sound("sound/start_classics/bede_gral_w_gre.mp3"))
-    classic_s.append(pygame.mixer.Sound("sound/start_classics/jedziemy_malina.mp3"))
+    classic_s.append(pygame.mixer.Sound("sound/start_classics/bede_gral_w_gre.wav"))
+    classic_s.append(pygame.mixer.Sound("sound/start_classics/jedziemy_malina.wav"))
     return classic_s
 
 
@@ -548,7 +548,7 @@ game_over_rect = game_over_surface.get_rect(center=(int(BG_SIZE[0]/2), int(BG_SI
 flap_sound = pygame.mixer.Sound("sound/sfx_wing.wav")
 death_sound = pygame.mixer.Sound("sound/sfx_hit.wav")
 score_sound = pygame.mixer.Sound("sound/sfx_point.wav")
-beat_highscore_sound = pygame.mixer.Sound("sound/win.mp3")
+beat_highscore_sound = pygame.mixer.Sound("sound/win.wav")
 
 
 with open("highscore.txt", 'r') as f:
@@ -680,7 +680,7 @@ while True:
             else:
                 BIRD_TYPE.bird_index = 0
 
-        if event.type == pygame.MOUSEBUTTONUP:
+        if event.type == pygame.MOUSEBUTTONDOWN:
             click_pos = pygame.mouse.get_pos()
             print(click_pos)
     screen.blit(bg_surface, (0, 0))
