@@ -218,15 +218,22 @@ def show_intro():
     wodka_right_surface = pygame.image.load("imgs/wodka_right.jpg").convert_alpha()
     wodka_right_surface = pygame.transform.scale(wodka_right_surface, (int(BG_SIZE[0]), int((BG_SIZE[1] - BG_SIZE[0])/2)))
     wodka_rect = wodka_right_surface.get_rect(center=(int(BG_SIZE[0]) / 2, int(BG_SIZE[1]-BG_SIZE[0])))
+    background_intro_surface = pygame.image.load("imgs/background_intro.jpg").convert_alpha()
+    background_intro_surface = pygame.transform.scale(background_intro_surface, (int(BG_SIZE[0]), int((BG_SIZE[1] - BG_SIZE[0])/2)))
+    background_intro_surface_rect_up = background_intro_surface.get_rect(center=(int(BG_SIZE[0]/2), int((BG_SIZE[1] - BG_SIZE[0])/4)))
+    background_intro_surface_rect_down = background_intro_surface.get_rect(center=(int(BG_SIZE[0]/2), int(BG_SIZE[1] - (BG_SIZE[1] - BG_SIZE[0])/4)))
     #TODO
-    game_name = game_font.render("CLOWNBIRD", True, (255, 255, 255))
+    game_name = game_font3.render("CLOWNBIRD", True, (255, 255, 255))
     game_name_rect = game_name.get_rect(center=(int(BG_SIZE[0]/2), int(BG_SIZE[1]/20)))
     screen.blit(wodka_right_surface, wodka_rect)
-    screen.blit(game_name, game_name_rect)
     screen.blit(intro_surface, intro_rect)
+    screen.blit(background_intro_surface, background_intro_surface_rect_up)
+    screen.blit(background_intro_surface, background_intro_surface_rect_down)
+    screen.blit(game_name, game_name_rect)
     pygame.display.update()
-    pygame.time.wait(3000)
+    pygame.time.wait(4500)
     return False
+
 
 #Highscore functions
 def show_highscore_display(hero):
@@ -840,7 +847,7 @@ while True:
         else:
             Gacek_flag = False
 
-        if BG_SIZE[0]/80 * 67.5 < click_pos[0] < BG_SIZE[0]/80 * 72.5 and BG_SIZE[1]/100 * 30 < click_pos[1] < BG_SIZE[1]/100 * 64:
+        if BG_SIZE[0]/80 * 67 < click_pos[0] < BG_SIZE[0]/80 * 72.5 and BG_SIZE[1]/100 * 3 < click_pos[1] < BG_SIZE[1]/100 *7:
             music_switch = not music_switch
             switch_music(music_switch)
             pygame.time.wait(90)
